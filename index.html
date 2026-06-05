@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NammaEvents — Chennai's Event Hub</title>
+<meta name="description" content="Discover and book the best events in Chennai — music, food, art, tech, sports and more."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --brand: #C8371A; --brand-light: #F5E8E4; --brand-dark: #8C2010;
+    --gold: #C9862A; --gold-light: #FAF0DC;
+    --ink: #1A1410; --muted: #6B5E57; --surface: #FDFAF8;
+    --border: rgba(26,20,16,0.1); --border-md: rgba(26,20,16,0.18);
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--surface); color: var(--ink); line-height: 1.6; }
+
+  /* NAV */
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(253,250,248,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
+  .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: var(--ink); text-decoration: none; letter-spacing: -0.5px; }
+  .logo span { color: var(--brand); }
+  .nav-links { display: flex; gap: 32px; align-items: center; }
+  .nav-links a { font-size: 13px; font-weight: 500; color: var(--muted); text-decoration: none; letter-spacing: 0.4px; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-cta { background: var(--brand) !important; color: white !important; padding: 9px 20px; border-radius: 5px; }
+  .nav-cta:hover { background: var(--brand-dark) !important; }
+  .hamburger { display: none; background: none; border: none; cursor: pointer; font-size: 24px; color: var(--ink); }
+  .mobile-menu { display: none; flex-direction: column; gap: 0; background: var(--surface); border-bottom: 1px solid var(--border); }
+  .mobile-menu a { padding: 14px 32px; font-size: 15px; font-weight: 500; color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--border); }
+  .mobile-menu.open { display: flex; }
+
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+
+  /* HERO */
+  .hero { padding: 72px 0 64px; display: grid; grid-template-columns: 1fr 480px; gap: 48px; align-items: center; }
+  .hero-tag { display: inline-flex; align-items: center; gap: 6px; background: var(--brand-light); color: var(--brand); font-size: 11px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; padding: 6px 14px; border-radius: 3px; margin-bottom: 20px; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: 58px; font-weight: 900; line-height: 1.04; letter-spacing: -1.5px; margin-bottom: 20px; }
+  .hero h1 em { color: var(--brand); font-style: normal; display: block; }
+  .hero p { font-size: 17px; color: var(--muted); line-height: 1.7; max-width: 440px; margin-bottom: 32px; }
+  .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn-primary { background: var(--brand); color: white; border: none; padding: 14px 28px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: background 0.2s; }
+  .btn-primary:hover { background: var(--brand-dark); }
+  .btn-outline { background: transparent; color: var(--ink); border: 1.5px solid var(--border-md); padding: 14px 28px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: border-color 0.2s; }
+  .btn-outline:hover { border-color: var(--ink); }
+
+  /* HERO VISUAL */
+  .hero-visual { position: relative; }
+  .featured-card { background: white; border-radius: 14px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 4px 24px rgba(26,20,16,0.08); }
+  .card-img { height: 220px; background: linear-gradient(135deg, #C8371A 0%, #8C2010 40%, #1A1410 100%); display: flex; align-items: flex-end; padding: 22px; position: relative; overflow: hidden; }
+  .card-img-pattern { position: absolute; inset: 0; opacity: 0.12; background-image: repeating-linear-gradient(45deg, white 0, white 1px, transparent 0, transparent 50%); background-size: 12px 12px; }
+  .card-img-label { position: relative; color: white; font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; line-height: 1.2; }
+  .card-img-sub { font-family: 'DM Sans', sans-serif; font-size: 12px; opacity: 0.65; font-weight: 400; margin-top: 2px; }
+  .card-body { padding: 20px 22px; }
+  .badge { display: inline-block; font-size: 10px; font-weight: 500; letter-spacing: 0.8px; text-transform: uppercase; padding: 4px 10px; border-radius: 3px; margin-bottom: 10px; }
+  .badge-music { background: var(--brand-light); color: var(--brand); }
+  .card-meta { display: flex; gap: 16px; margin-bottom: 8px; font-size: 12px; }
+  .card-date { color: var(--brand); font-weight: 500; }
+  .card-loc { color: var(--muted); }
+  .card-title { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 700; margin-bottom: 6px; }
+  .card-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .mini-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+  .mini-card { background: var(--brand-light); border-radius: 10px; padding: 14px; border: 1px solid rgba(200,55,26,0.12); }
+  .mini-card-date { font-size: 10px; color: var(--brand); font-weight: 500; margin-bottom: 4px; }
+  .mini-card-title { font-size: 13px; font-weight: 500; line-height: 1.3; color: var(--ink); }
+
+  /* STATS */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin: 0 0 64px; }
+  .stat { background: var(--surface); padding: 26px 20px; text-align: center; }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 34px; font-weight: 900; color: var(--brand); line-height: 1; }
+  .stat-label { font-size: 12px; color: var(--muted); margin-top: 5px; }
+
+  /* SEARCH */
+  .search-wrap { background: white; border: 1px solid var(--border-md); border-radius: 10px; padding: 6px 6px 6px 18px; display: flex; gap: 10px; align-items: center; margin-bottom: 48px; box-shadow: 0 2px 12px rgba(26,20,16,0.06); }
+  .search-wrap input { flex: 1; border: none; outline: none; font-family: 'DM Sans', sans-serif; font-size: 15px; background: transparent; color: var(--ink); padding: 8px 0; }
+  .search-wrap input::placeholder { color: var(--muted); }
+  .search-divider { width: 1px; height: 26px; background: var(--border); flex-shrink: 0; }
+  .search-wrap select { border: none; outline: none; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--muted); background: transparent; cursor: pointer; padding: 0 8px; }
+  .search-btn { background: var(--brand); color: white; border: none; padding: 10px 22px; border-radius: 7px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; white-space: nowrap; transition: background 0.2s; display: flex; align-items: center; gap: 6px; }
+  .search-btn:hover { background: var(--brand-dark); }
+
+  /* SECTIONS */
+  .section-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 24px; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 900; letter-spacing: -0.5px; }
+  .section-link { font-size: 13px; color: var(--brand); cursor: pointer; text-decoration: none; }
+  .section-link:hover { text-decoration: underline; }
+
+  /* CATEGORIES */
+  .cats { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 48px; }
+  .cat-btn { display: flex; align-items: center; gap: 8px; padding: 10px 18px; border: 1.5px solid var(--border); border-radius: 40px; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; background: white; transition: all 0.15s; color: var(--ink); }
+  .cat-btn:hover, .cat-btn.active { border-color: var(--brand); background: var(--brand-light); color: var(--brand); }
+  .cat-icon { font-size: 16px; }
+
+  /* EVENTS GRID */
+  .events-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 64px; }
+  .event-card { background: white; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; text-decoration: none; color: inherit; display: block; }
+  .event-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(26,20,16,0.1); }
+  .event-thumb { height: 168px; display: flex; align-items: flex-end; padding: 16px; position: relative; overflow: hidden; }
+  .thumb-1 { background: linear-gradient(135deg, #C8371A, #1A1410); }
+  .thumb-2 { background: linear-gradient(135deg, #C9862A, #4A2A00); }
+  .thumb-3 { background: linear-gradient(135deg, #1A6B3A, #0A2010); }
+  .thumb-4 { background: linear-gradient(135deg, #1A3A8C, #050F2A); }
+  .thumb-5 { background: linear-gradient(135deg, #0A6B6B, #021A1A); }
+  .thumb-6 { background: linear-gradient(135deg, #6B1A8C, #1A0528); }
+  .thumb-pattern { position: absolute; inset: 0; opacity: 0.1; background-image: repeating-linear-gradient(45deg, white 0, white 1px, transparent 0, transparent 50%); background-size: 8px 8px; }
+  .thumb-title { position: relative; font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: white; line-height: 1.2; }
+  .event-body { padding: 15px 17px; }
+  .event-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+  .event-date { font-size: 11px; color: var(--brand); font-weight: 500; }
+  .event-name { font-size: 15px; font-weight: 500; margin-bottom: 4px; line-height: 1.3; }
+  .event-venue { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 3px; }
+  .event-footer { display: flex; align-items: center; justify-content: space-between; padding: 11px 17px; border-top: 1px solid var(--border); }
+  .event-seats { font-size: 11px; color: var(--muted); }
+  .event-price-tag { font-size: 13px; font-weight: 500; color: var(--ink); }
+  .event-book { font-size: 12px; font-weight: 500; color: var(--brand); }
+
+  /* UPCOMING */
+  .upcoming-list { margin-bottom: 64px; }
+  .upcoming-item { display: flex; align-items: center; gap: 18px; padding: 18px 12px; border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.15s; border-radius: 8px; }
+  .upcoming-item:hover { background: var(--brand-light); }
+  .upcoming-date-box { min-width: 56px; text-align: center; background: var(--brand-light); border-radius: 8px; padding: 10px 8px; }
+  .upcoming-month { font-size: 10px; color: var(--brand); font-weight: 500; text-transform: uppercase; }
+  .upcoming-day { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 900; color: var(--brand); line-height: 1; }
+  .upcoming-info { flex: 1; }
+  .upcoming-name { font-size: 15px; font-weight: 500; margin-bottom: 3px; }
+  .upcoming-meta { font-size: 12px; color: var(--muted); }
+  .upcoming-price { font-size: 14px; font-weight: 500; color: var(--ink); white-space: nowrap; }
+
+  /* SUBSCRIBE BANNER */
+  .sub-banner { background: var(--ink); border-radius: 14px; padding: 52px 48px; display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: center; margin-bottom: 64px; }
+  .sub-banner h2 { font-family: 'Playfair Display', serif; font-size: 34px; font-weight: 900; color: white; line-height: 1.1; margin-bottom: 10px; }
+  .sub-banner h2 em { color: #C8371A; font-style: normal; }
+  .sub-banner p { font-size: 15px; color: rgba(255,255,255,0.55); line-height: 1.65; }
+  .sub-btns { display: flex; flex-direction: column; gap: 10px; }
+  .btn-email-sub { background: var(--brand); color: white; border: none; padding: 13px 24px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; border-radius: 5px; cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 8px; text-decoration: none; justify-content: center; transition: background 0.2s; }
+  .btn-email-sub:hover { background: var(--brand-dark); }
+  .btn-wa-sub { background: #25D366; color: white; border: none; padding: 13px 24px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; border-radius: 5px; cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 8px; text-decoration: none; justify-content: center; transition: background 0.2s; }
+  .btn-wa-sub:hover { background: #128C4E; }
+
+  /* HOST CTA */
+  .host-cta { background: var(--gold-light); border: 1px solid rgba(201,134,42,0.2); border-radius: 14px; padding: 48px 44px; display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: center; margin-bottom: 64px; }
+  .host-cta h2 { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 900; color: var(--ink); line-height: 1.1; margin-bottom: 10px; }
+  .host-cta h2 em { color: var(--gold); font-style: normal; }
+  .host-cta p { font-size: 15px; color: var(--muted); line-height: 1.65; }
+  .btn-gold { background: var(--gold); color: white; border: none; padding: 14px 28px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; border-radius: 5px; cursor: pointer; white-space: nowrap; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: opacity 0.2s; }
+  .btn-gold:hover { opacity: 0.88; }
+
+  /* FOOTER */
+  footer { background: var(--ink); color: white; padding: 48px 0 28px; }
+  .footer-inner { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; margin-bottom: 12px; }
+  .footer-logo span { color: var(--brand); }
+  .footer-desc { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.7; }
+  .footer-col h4 { font-size: 11px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 14px; }
+  .footer-col a { display: block; font-size: 13px; color: rgba(255,255,255,0.65); text-decoration: none; margin-bottom: 8px; transition: color 0.2s; }
+  .footer-col a:hover { color: white; }
+  .footer-bottom { display: flex; align-items: center; justify-content: space-between; }
+  .footer-copy { font-size: 12px; color: rgba(255,255,255,0.35); }
+  .footer-socials { display: flex; gap: 16px; }
+  .footer-socials a { font-size: 18px; color: rgba(255,255,255,0.4); text-decoration: none; transition: color 0.2s; }
+  .footer-socials a:hover { color: white; }
+
+  .sep { height: 1px; background: var(--border); margin: 0 0 56px; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .hero-text { animation: fadeUp 0.6s ease both; }
+  .hero-visual { animation: fadeUp 0.6s 0.15s ease both; }
+
+  /* RESPONSIVE */
+  @media (max-width: 960px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 44px; }
+    .events-grid { grid-template-columns: 1fr 1fr; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+    .hamburger { display: block; }
+    .hero { padding: 40px 0 32px; }
+    .hero h1 { font-size: 36px; }
+    .hero-visual { display: none; }
+    .stats { grid-template-columns: 1fr 1fr; }
+    .events-grid { grid-template-columns: 1fr; }
+    .search-wrap .search-divider, .search-wrap select:not(:last-of-type) { display: none; }
+    .sub-banner, .host-cta { grid-template-columns: 1fr; }
+    .container { padding: 0 20px; }
+    .footer-top { grid-template-columns: 1fr; gap: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">Namma<span>Events</span></a>
+    <div class="nav-links">
+      <a href="#events">Discover</a>
+      <a href="#categories">Categories</a>
+      <a href="subscribe.html">Subscribe</a>
+      <a href="#about">About</a>
+      <a href="organizer.html" class="nav-cta">List Your Event</a>
+    </div>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu"><i class="ti ti-menu-2"></i></button>
+  </div>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="#events">Discover</a>
+    <a href="#categories">Categories</a>
+    <a href="subscribe.html">Subscribe</a>
+    <a href="#about">About</a>
+    <a href="organizer.html">List Your Event</a>
+  </div>
+</nav>
+
+<main>
+  <div class="container">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-text">
+        <div class="hero-tag"><i class="ti ti-map-pin" style="font-size:13px"></i> Chennai's Event Hub</div>
+        <h1>Every Event.<br><em>One City.</em></h1>
+        <p>From Carnatic concerts at Music Academy to beach marathons on Marina, discover and book the best events Chennai has to offer — all in one place.</p>
+        <div class="hero-btns">
+          <a href="#events" class="btn-primary"><i class="ti ti-compass"></i> Explore Events</a>
+          <a href="organizer.html" class="btn-outline"><i class="ti ti-plus"></i> Host an Event</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="featured-card">
+          <div class="card-img">
+            <div class="card-img-pattern"></div>
+            <div>
+              <div class="card-img-label">Chennai Music Festival<div class="card-img-sub">Season XXIV</div></div>
+            </div>
+          </div>
+          <div class="card-body">
+            <span class="badge badge-music">Music</span>
+            <div class="card-meta">
+              <span class="card-date"><i class="ti ti-calendar" style="font-size:11px"></i> Jun 14–16, 2026</span>
+              <span class="card-loc"><i class="ti ti-map-pin" style="font-size:11px"></i> Music Academy, T.Nagar</span>
+            </div>
+            <div class="card-title">Evening of Classical Strings</div>
+            <div class="card-desc">Three nights of Carnatic music featuring masters of veena, violin, and mridangam.</div>
+          </div>
+        </div>
+        <div class="mini-cards">
+          <div class="mini-card">
+            <div class="mini-card-date"><i class="ti ti-calendar" style="font-size:10px"></i> Jun 20 · Marina Beach</div>
+            <div class="mini-card-title">Sunrise 5K Run</div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-card-date"><i class="ti ti-calendar" style="font-size:10px"></i> Jun 22 · Mylapore</div>
+            <div class="mini-card-title">Heritage Walk & Food Trail</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <div class="stats">
+      <div class="stat"><div class="stat-num">1,200+</div><div class="stat-label">Events this year</div></div>
+      <div class="stat"><div class="stat-num">340+</div><div class="stat-label">Verified venues</div></div>
+      <div class="stat"><div class="stat-num">85K+</div><div class="stat-label">Happy attendees</div></div>
+      <div class="stat"><div class="stat-num">180+</div><div class="stat-label">Organizers</div></div>
+    </div>
+
+    <!-- SEARCH -->
+    <div class="search-wrap">
+      <i class="ti ti-search" style="font-size:18px; color:#6B5E57"></i>
+      <input type="text" id="search-input" placeholder="Search events, venues, artists…"/>
+      <div class="search-divider"></div>
+      <select id="cat-filter" onchange="filterEvents()">
+        <option value="all">All Categories</option>
+        <option value="music">Music</option>
+        <option value="food">Food & Drink</option>
+        <option value="art">Art & Culture</option>
+        <option value="tech">Tech & Business</option>
+        <option value="sport">Sports & Fitness</option>
+        <option value="kids">Kids & Family</option>
+      </select>
+      <div class="search-divider"></div>
+      <select>
+        <option>This Weekend</option>
+        <option>This Month</option>
+        <option>Next Month</option>
+        <option>Any Date</option>
+      </select>
+      <button class="search-btn" onclick="doSearch()"><i class="ti ti-search"></i> Search</button>
+    </div>
+
+    <!-- CATEGORIES -->
+    <section id="categories">
+      <div class="section-header">
+        <div class="section-title">Browse by category</div>
+      </div>
+      <div class="cats">
+        <button class="cat-btn active" onclick="setCat(this,'all')"><span class="cat-icon"><i class="ti ti-layout-grid"></i></span> All Events</button>
+        <button class="cat-btn" onclick="setCat(this,'music')"><span class="cat-icon"><i class="ti ti-music"></i></span> Music & Concerts</button>
+        <button class="cat-btn" onclick="setCat(this,'food')"><span class="cat-icon"><i class="ti ti-bowl"></i></span> Food & Drink</button>
+        <button class="cat-btn" onclick="setCat(this,'art')"><span class="cat-icon"><i class="ti ti-palette"></i></span> Art & Culture</button>
+        <button class="cat-btn" onclick="setCat(this,'tech')"><span class="cat-icon"><i class="ti ti-device-laptop"></i></span> Tech & Business</button>
+        <button class="cat-btn" onclick="setCat(this,'sport')"><span class="cat-icon"><i class="ti ti-run"></i></span> Sports & Fitness</button>
+        <button class="cat-btn" onclick="setCat(this,'kids')"><span class="cat-icon"><i class="ti ti-stars"></i></span> Kids & Family</button>
+      </div>
+    </section>
+
+    <!-- EVENTS GRID -->
+    <section id="events">
+      <div class="section-header">
+        <div class="section-title">Featured events</div>
+        <a href="#" class="section-link">View all <i class="ti ti-arrow-right" style="font-size:12px"></i></a>
+      </div>
+      <div class="events-grid" id="events-grid">
+        <a href="https://allevents.in/chennai/timeless-chitra-live-music-concert/3900030021435630" target="_blank" class="event-card" data-cat="music">
+          <div class="event-thumb thumb-1"><div class="thumb-pattern"></div><div class="thumb-title">Timeless Chitra<br>Live Concert</div></div>
+          <div class="event-body">
+            <div class="event-meta"><span class="event-date"><i class="ti ti-calendar" style="font-size:11px"></i> Sat, Jul 11 · 6:00 PM</span></div>
+            <div class="event-name">Timeless Chitra Live Music Concert</div>
+            <div class="event-venue"><i class="ti ti-map-pin" style="font-size:11px"></i> Jawaharlal Nehru Indoor Stadium, Chennai</div>
+          </div>
+          <div class="event-footer">
+            <span class="event-seats"><i class="ti ti-ticket" style="font-size:11px"></i> Limited seats</span>
+            <span class="event-price-tag">₹ Check site</span>
+            <span class="event-book">Book →</span>
+          </div>
+        </a>
+        <a href="https://allevents.in/chennai/jagane-thandhiram-chennai/3900029816787958" target="_blank" class="event-card" data-cat="art">
+          <div class="event-thumb thumb-6"><div class="thumb-pattern"></div><div class="thumb-title">Jagane<br>Thandhiram</div></div>
+          <div class="event-body">
+            <div class="event-meta"><span class="event-date"><i class="ti ti-calendar" style="font-size:11px"></i> Sun, Jul 12 · 6:30 PM</span></div>
+            <div class="event-name">Jagane Thandhiram — Musical Stand-up Comedy</div>
+            <div class="event-venue"><i class="ti ti-map-pin" style="font-size:11px"></i> Museum Theatre, Chennai</div>
+          </div>
+          <div class="event-footer">
+            <span class="event-seats"><i class="ti ti-users" style="font-size:11px"></i> 48 interested</span>
+            <span class="event-price-tag">₹ Check site</span>
+            <span class="event-book">Book →</span>
+          </div>
+        </a>
+        <a href="https://allevents.in/chennai/namma-chennai-juniorthon-4th-edition/4100029945960732" target="_blank" class="event-card" data-cat="sport">
+          <div class="event-thumb thumb-5"><div class="thumb-pattern"></div><div class="thumb-title">Namma Chennai<br>Juniorthon</div></div>
+          <div class="event-body">
+            <div class="event-meta"><span class="event-date"><i class="ti ti-calendar" style="font-size:11px"></i> Sun, Jul 12 · 8:00 AM</span></div>
+            <div class="event-name">Namma Chennai Juniorthon – 4th Edition</div>
+            <div class="event-venue"><i class="ti ti-map-pin" style="font-size:11px"></i> Nehru Park, SDAT, Chennai</div>
+          </div>
+          <div class="event-footer">
+            <span class="event-seats"><i class="ti ti-run" style="font-size:11px"></i> Kids & families</span>
+            <span class="event-price-tag">₹599</span>
+            <span class="event-book">Register →</span>
+          </div>
+        </a>
+        <a href="https://allevents.in/chennai/kids-and-junior-athletics-meet-2026-tickets/80002931242302" target="_blank" class="event-card" data-cat="kids">
+          <div class="event-thumb thumb-3"><div class="thumb-pattern"></div><div class="thumb-title">Kids & Junior<br>Athletics Meet</div></div>
+          <div class="event-body">
+            <div class="event-meta"><span class="event-date"><i class="ti ti-calendar" style="font-size:11px"></i> Sat, Jul 4 · 7:30 AM</span></div>
+            <div class="event-name">Kids & Junior Athletics Meet 2026</div>
+            <div class="event-venue"><i class="ti ti-map-pin" style="font-size:11px"></i> Jawaharlal Nehru Stadium, Chennai</div>
+          </div>
+          <div class="event-footer">
+            <span class="event-seats"><i class="ti ti-users" style="font-size:11px"></i> Open registration</span>
+            <span class="event-price-tag">₹500</span>
+            <span class="event-book">Register →</span>
+          </div>
+        </a>
+        <a href="https://allevents.in/chennai/thumbai-centre-for-arts-grand-concert-of-shri-sikkil-gurucharan/200030057428742" target="_blank" class="event-card" data-cat="music">
+          <div class="event-thumb thumb-2"><div class="thumb-pattern"></div><div class="thumb-title">Sikkil Gurucharan<br>Grand Concert</div></div>
+          <div class="event-body">
+            <div class="event-meta"><span class="event-date"><i class="ti ti-calendar" style="font-size:11px"></i> Sun, Jul 5 · 12:30 PM</span></div>
+            <div class="event-name">Thumbai Arts — Sikkil Gurucharan Concert</div>
+            <div class="event-venue"><i class="ti ti-map-pin" style="font-size:11px"></i> Club Road, Chetpet, Chennai</div>
+          </div>
+          <div class="event-footer">
+            <span class="event-seats"><i class="ti ti-music" style="font-size:11px"></i> Carnatic vocal</span>
+            <span class="event-price-tag">₹ Check site</span>
+            <span class="event-book">Book →</span>
+          </div>
+        </a>
+        <a href="https://allevents.in/chennai/the-great-chennai-job-fair-2026/200030103211241" target="_blank" class="event-card" data-cat="tech">
+          <div class="event-thumb thumb-4"><div class="thumb-pattern"></div><div class="thumb-title">Great Chennai<br>Job Fair 2026</div></div>
+          <div class="event-body">
+            <div class="event-meta"><span class="event-date"><i class="ti ti-calendar" style="font-size:11px"></i> Sat, Jul 11 · 8:00 AM</span></div>
+            <div class="event-name">The Great Chennai Job Fair 2026</div>
+            <div class="event-venue"><i class="ti ti-map-pin" style="font-size:11px"></i> Loyola College, Nungambakkam, Chennai</div>
+          </div>
+          <div class="event-footer">
+            <span class="event-seats"><i class="ti ti-building" style="font-size:11px"></i> 500+ companies</span>
+            <span class="event-price-tag">Free entry</span>
+            <span class="event-book">Register →</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <div class="sep"></div>
+
+    <!-- UPCOMING -->
+    <section>
+      <div class="section-header">
+        <div class="section-title">Coming up soon</div>
+        <div style="display:flex;align-items:center;gap:14px;">
+          <span id="live-badge" style="font-size:11px;color:#1A6B3A;font-weight:500;background:#E4F5E8;padding:4px 10px;border-radius:12px;">🟢 Live events</span>
+          <a href="#" class="section-link">Full calendar <i class="ti ti-arrow-right" style="font-size:12px"></i></a>
+        </div>
+      </div>
+      <div class="upcoming-list" id="upcoming-list"></div>
+    </section>
+
+    <!-- SUBSCRIBE BANNER -->
+    <div class="sub-banner">
+      <div>
+        <h2>Never miss an event in <em>Namma Chennai.</em></h2>
+        <p>Get weekly curated picks delivered to your inbox or straight to WhatsApp every Friday at 9 AM. Join 4,200+ Chennaivasis already subscribed.</p>
+      </div>
+      <div class="sub-btns">
+        <a href="subscribe.html" class="btn-email-sub"><i class="ti ti-mail"></i> Subscribe via Email</a>
+        <a href="subscribe.html" class="btn-wa-sub"><i class="ti ti-brand-whatsapp"></i> Get WhatsApp Updates</a>
+      </div>
+    </div>
+
+    <!-- HOST CTA -->
+    <div class="host-cta" id="about">
+      <div>
+        <h2>Host your event in <em>Namma Chennai.</em></h2>
+        <p>Reach thousands of engaged event-goers across the city. Ticketing, RSVPs, promotion, and analytics — all in one place. Takes just 5 minutes to list your event.</p>
+      </div>
+      <a href="organizer.html" class="btn-gold"><i class="ti ti-calendar-plus"></i> List Your Event</a>
+    </div>
+
+  </div><!-- /container -->
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">Namma<span>Events</span></div>
+        <div class="footer-desc">Chennai's premier event discovery platform. Find, book, and experience the best the city has to offer — every week.</div>
+      </div>
+      <div class="footer-col">
+        <h4>Discover</h4>
+        <a href="#">All Events</a>
+        <a href="#">Music & Concerts</a>
+        <a href="#">Food & Drink</a>
+        <a href="#">Art & Culture</a>
+        <a href="#">Sports & Fitness</a>
+      </div>
+      <div class="footer-col">
+        <h4>Organizers</h4>
+        <a href="organizer.html">List an Event</a>
+        <a href="#">Pricing</a>
+        <a href="#">Organizer FAQ</a>
+        <a href="#">Featured Listings</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About Us</a>
+        <a href="subscribe.html">Newsletter</a>
+        <a href="#">Contact</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 NammaEvents · Chennai, Tamil Nadu · Made with <i class="ti ti-heart" style="font-size:12px;color:#C8371A"></i> for Chennai</div>
+      <div class="footer-socials">
+        <a href="#" aria-label="Instagram"><i class="ti ti-brand-instagram"></i></a>
+        <a href="#" aria-label="Facebook"><i class="ti ti-brand-facebook"></i></a>
+        <a href="#" aria-label="Twitter"><i class="ti ti-brand-twitter"></i></a>
+        <a href="#" aria-label="WhatsApp"><i class="ti ti-brand-whatsapp"></i></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── Menu ──────────────────────────────────────────────────────────────────────
+function toggleMenu() {
+  document.getElementById('mobile-menu').classList.toggle('open');
+}
+
+// ── State ─────────────────────────────────────────────────────────────────────
+let allEvents    = [];
+let currentCat   = 'all';
+let currentQuery = '';
+let isLoading    = false;
+
+// ── Category colours ─────────────────────────────────────────────────────────
+const thumbColors = {
+  music: '#C8371A', food: '#C9862A', art: '#1A6B3A',
+  tech:  '#1A3A8C', sport: '#0A6B6B', kids: '#6B1A8C',
+};
+
+// ── Fetch live events from our Netlify function ───────────────────────────────
+async function fetchEvents(cat = 'all') {
+  if (isLoading) return;
+  isLoading = true;
+  showSkeleton();
+
+  try {
+    const url = `/.netlify/functions/get-events?category=${encodeURIComponent(cat)}`;
+    const res  = await fetch(url);
+    if (!res.ok) throw new Error('Network response not ok');
+    const data = await res.json();
+    allEvents = data.events || [];
+
+    // Show live badge if from API, fallback badge if not
+    const badge = document.getElementById('live-badge');
+    if (badge) {
+      badge.textContent  = data.source === 'allevents' ? '🟢 Live events' : '📋 Cached events';
+      badge.title        = 'Last updated: ' + (data.fetched ? new Date(data.fetched).toLocaleString('en-IN') : 'unknown');
+    }
+  } catch (err) {
+    console.warn('Fetch failed, using fallback:', err.message);
+    allEvents = getFallbackEvents();
+  }
+
+  renderEvents(allEvents);
+  renderUpcoming(allEvents);
+  isLoading = false;
+}
+
+// ── Render events grid ────────────────────────────────────────────────────────
+function renderEvents(events) {
+  const grid = document.getElementById('events-grid');
+  if (!events.length) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px 0;color:#6B5E57;font-size:15px;">
+      <i class="ti ti-calendar-off" style="font-size:32px;display:block;margin-bottom:10px"></i>
+      No events found for this category right now. Check back soon!
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = events.slice(0, 6).map((e, i) => {
+    const color = thumbColors[e.category] || '#1A1410';
+    const catLabel = { music:'Music', food:'Food & Drink', art:'Art & Culture', tech:'Tech & Business', sport:'Sports & Fitness', kids:'Kids & Family' }[e.category] || 'Event';
+    const seatsHtml = e.seats ? `<span class="event-seats"><i class="ti ti-users" style="font-size:11px"></i> ${e.seats}</span>` : `<span class="event-seats"><i class="ti ti-ticket" style="font-size:11px"></i> Open</span>`;
+    return `
+      <a href="${e.url}" target="_blank" rel="noopener" class="event-card" data-cat="${e.category}">
+        <div class="event-thumb" style="background:${color}">
+          <div class="thumb-pattern"></div>
+          ${e.image ? `<img src="${e.image}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.35">` : ''}
+          <div class="thumb-title">${truncate(e.name, 28)}</div>
+        </div>
+        <div class="event-body">
+          <div class="event-meta">
+            <span class="event-date"><i class="ti ti-calendar" style="font-size:11px"></i> ${e.dateDisplay}</span>
+          </div>
+          <div class="event-name">${e.name}</div>
+          <div class="event-venue"><i class="ti ti-map-pin" style="font-size:11px"></i> ${e.venue}${e.area && e.area !== e.venue ? ', ' + e.area : ''}</div>
+        </div>
+        <div class="event-footer">
+          ${seatsHtml}
+          <span class="event-price-tag">${e.price}</span>
+          <span class="event-book">Book →</span>
+        </div>
+      </a>`;
+  }).join('');
+}
+
+// ── Render upcoming list ──────────────────────────────────────────────────────
+function renderUpcoming(events) {
+  const list = document.getElementById('upcoming-list');
+  if (!list) return;
+
+  // Sort by date and take next 6
+  const sorted = [...events]
+    .filter(e => e.date)
+    .sort((a, b) => new Date(a.date) - new Date(b.date))
+    .slice(0, 6);
+
+  if (!sorted.length) { list.innerHTML = ''; return; }
+
+  list.innerHTML = sorted.map(e => {
+    const d = e.date ? new Date(e.date) : null;
+    const month = d ? d.toLocaleDateString('en-IN', { month: 'short' }).toUpperCase() : '—';
+    const day   = d ? d.getDate() : '—';
+    const catLabel = { music:'Music', food:'Food & Drink', art:'Art & Culture', tech:'Tech & Business', sport:'Sports & Fitness', kids:'Kids & Family' }[e.category] || 'Event';
+    return `
+      <a href="${e.url}" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;display:block;">
+        <div class="upcoming-item">
+          <div class="upcoming-date-box">
+            <div class="upcoming-month">${month}</div>
+            <div class="upcoming-day">${day}</div>
+          </div>
+          <div class="upcoming-info">
+            <div class="upcoming-name">${e.name}</div>
+            <div class="upcoming-meta"><i class="ti ti-map-pin" style="font-size:11px"></i> ${e.venue} · ${catLabel}</div>
+          </div>
+          <div class="upcoming-price">${e.price}</div>
+        </div>
+      </a>`;
+  }).join('');
+}
+
+// ── Skeleton loader ───────────────────────────────────────────────────────────
+function showSkeleton() {
+  const skEl = `<div class="event-card" style="pointer-events:none">
+    <div class="event-thumb" style="background:#e8e0da"></div>
+    <div class="event-body">
+      <div style="height:12px;background:#e8e0da;border-radius:4px;margin-bottom:8px;width:60%"></div>
+      <div style="height:15px;background:#e8e0da;border-radius:4px;margin-bottom:6px"></div>
+      <div style="height:12px;background:#e8e0da;border-radius:4px;width:70%"></div>
+    </div>
+    <div class="event-footer" style="background:#f5f0ec"></div>
+  </div>`;
+  document.getElementById('events-grid').innerHTML = skEl.repeat(6);
+}
+
+// ── Category filter ───────────────────────────────────────────────────────────
+function setCat(btn, cat) {
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('cat-filter').value = cat;
+  currentCat = cat;
+  fetchEvents(cat);
+}
+
+function filterEvents() {
+  currentCat = document.getElementById('cat-filter').value;
+  fetchEvents(currentCat);
+}
+
+// ── Search ────────────────────────────────────────────────────────────────────
+function doSearch() {
+  const q = document.getElementById('search-input').value.trim().toLowerCase();
+  currentQuery = q;
+  if (!q) { renderEvents(allEvents); return; }
+  const filtered = allEvents.filter(e =>
+    e.name.toLowerCase().includes(q) ||
+    e.venue.toLowerCase().includes(q) ||
+    e.area.toLowerCase().includes(q) ||
+    e.category.toLowerCase().includes(q)
+  );
+  renderEvents(filtered);
+}
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('search-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') doSearch();
+  });
+});
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function truncate(str, n) {
+  return str.length > n ? str.slice(0, n - 1) + '…' : str;
+}
+
+// Fallback events shown if the serverless function is unreachable
+function getFallbackEvents() {
+  return [
+    { id:"1", name:"Timeless Chitra Live Music Concert",   category:"music",  date:"2026-07-11T18:00:00", dateDisplay:"Sat, 11 Jul · 6:00 PM",  venue:"Jawaharlal Nehru Indoor Stadium", area:"Chennai", price:"Check site", url:"https://allevents.in/chennai/timeless-chitra-live-music-concert/3900030021435630",           image:"", seats:"" },
+    { id:"2", name:"Jagane Thandhiram Musical Stand-up",   category:"art",    date:"2026-07-12T18:30:00", dateDisplay:"Sun, 12 Jul · 6:30 PM",  venue:"Museum Theatre",                  area:"Chennai", price:"Check site", url:"https://allevents.in/chennai/jagane-thandhiram-chennai/3900029816787958",                    image:"", seats:"48 interested" },
+    { id:"3", name:"Namma Chennai Juniorthon – 4th Ed.",   category:"sport",  date:"2026-07-12T08:00:00", dateDisplay:"Sun, 12 Jul · 8:00 AM",  venue:"Nehru Park, SDAT",                area:"Chennai", price:"₹599",       url:"https://allevents.in/chennai/namma-chennai-juniorthon-4th-edition/4100029945960732",          image:"", seats:"" },
+    { id:"4", name:"Kids & Junior Athletics Meet 2026",    category:"kids",   date:"2026-07-04T07:30:00", dateDisplay:"Sat, 4 Jul · 7:30 AM",   venue:"Jawaharlal Nehru Stadium",        area:"Chennai", price:"₹500",       url:"https://allevents.in/chennai/kids-and-junior-athletics-meet-2026-tickets/80002931242302",      image:"", seats:"" },
+    { id:"5", name:"Sikkil Gurucharan Grand Concert",      category:"music",  date:"2026-07-05T12:30:00", dateDisplay:"Sun, 5 Jul · 12:30 PM",  venue:"Club Road, Chetpet",              area:"Chennai", price:"Check site", url:"https://allevents.in/chennai/thumbai-centre-for-arts-grand-concert-of-shri-sikkil-gurucharan/200030057428742", image:"", seats:"" },
+    { id:"6", name:"The Great Chennai Job Fair 2026",      category:"tech",   date:"2026-07-11T08:00:00", dateDisplay:"Sat, 11 Jul · 8:00 AM",  venue:"Loyola College, Nungambakkam",    area:"Chennai", price:"Free",       url:"https://allevents.in/chennai/the-great-chennai-job-fair-2026/200030103211241",                   image:"", seats:"500+ companies" },
+  ];
+}
+
+// ── Boot ──────────────────────────────────────────────────────────────────────
+fetchEvents('all');
+</script>
+</body>
+</html>

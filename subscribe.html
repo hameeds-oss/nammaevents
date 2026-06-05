@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Subscribe — NammaEvents Chennai</title>
+<meta name="description" content="Get weekly Chennai event updates via email and WhatsApp. Join 4,200+ Chennaivasis already subscribed."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --brand: #C8371A; --brand-light: #F5E8E4; --brand-dark: #8C2010;
+    --wa: #25D366; --wa-dark: #128C4E; --wa-light: #E8FBF0;
+    --ink: #1A1410; --muted: #6B5E57; --surface: #FDFAF8;
+    --border: rgba(26,20,16,0.1); --border-md: rgba(26,20,16,0.18);
+    --success: #1A6B3A; --success-light: #E4F5E8;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--surface); color: var(--ink); }
+
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(253,250,248,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
+  .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: var(--ink); text-decoration: none; }
+  .logo span { color: var(--brand); }
+  .nav-links { display: flex; gap: 28px; align-items: center; }
+  .nav-links a { font-size: 13px; font-weight: 500; color: var(--muted); text-decoration: none; transition: color 0.2s; display: flex; align-items: center; gap: 5px; }
+  .nav-links a:hover { color: var(--ink); }
+
+  .page-wrap { max-width: 860px; margin: 0 auto; padding: 40px 32px 60px; }
+
+  /* HERO BANNER */
+  .hero-banner { background: var(--ink); border-radius: 14px; padding: 44px 44px; margin-bottom: 28px; display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: center; }
+  .hero-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 10px; }
+  .hero-title { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 900; color: white; line-height: 1.05; margin-bottom: 12px; }
+  .hero-title em { color: var(--brand); font-style: normal; }
+  .hero-sub { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.7; max-width: 380px; }
+  .hero-badges { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+  .hbadge { display: flex; align-items: center; gap: 7px; padding: 7px 14px; border-radius: 20px; font-size: 12px; font-weight: 500; }
+  .hbadge-email { background: rgba(200,55,26,0.2); color: #F5A090; }
+  .hbadge-wa { background: rgba(37,211,102,0.2); color: #5AE68A; }
+  .hero-counter { text-align: center; }
+  .counter-num { font-family: 'Playfair Display', serif; font-size: 52px; font-weight: 900; color: white; line-height: 1; }
+  .counter-sub { font-size: 12px; color: rgba(255,255,255,0.35); margin-top: 5px; }
+
+  /* STATS ROW */
+  .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 28px; }
+  .stat-card { background: white; border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; text-align: center; }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 900; color: var(--brand); line-height: 1; }
+  .stat-label { font-size: 12px; color: var(--muted); margin-top: 5px; }
+
+  /* MAIN FORM */
+  .main-form-card { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 32px 32px; margin-bottom: 24px; }
+  .form-head { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
+  .form-icons { display: flex; gap: 6px; }
+  .ficon { width: 38px; height: 38px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .ficon-email { background: var(--brand-light); color: var(--brand); }
+  .ficon-wa { background: var(--wa-light); color: var(--wa-dark); }
+  .form-head-text h2 { font-size: 17px; font-weight: 500; }
+  .form-head-text p { font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .field { margin-bottom: 18px; }
+  .field label { display: block; font-size: 11px; font-weight: 500; color: var(--muted); letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 6px; }
+  .field input, .field select { width: 100%; padding: 10px 14px; border: 1px solid var(--border-md); border-radius: 7px; font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--ink); background: white; outline: none; transition: border-color 0.2s; }
+  .field input:focus, .field select:focus { border-color: var(--brand); }
+  .field-note { font-size: 11px; color: var(--muted); margin-top: 4px; line-height: 1.5; }
+  .err { font-size: 11px; color: #E24B4A; margin-top: 4px; display: none; }
+
+  .section-divider { border: none; border-top: 1px solid var(--border); margin: 18px 0; }
+
+  .channel-label { font-size: 11px; font-weight: 500; letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 7px; }
+  .channel-label.email-ch { color: var(--brand); }
+  .channel-label.wa-ch { color: var(--wa-dark); }
+
+  .wa-note { background: var(--wa-light); border: 1px solid rgba(37,211,102,0.2); border-radius: 8px; padding: 12px 16px; font-size: 13px; color: var(--wa-dark); line-height: 1.6; margin-bottom: 14px; display: flex; gap: 10px; align-items: flex-start; }
+  .wa-note i { flex-shrink: 0; font-size: 17px; margin-top: 1px; }
+
+  .phone-row { display: flex; gap: 8px; }
+  .dial-sel { width: 110px !important; flex-shrink: 0; }
+
+  /* PREFERENCES */
+  .prefs-section { margin-bottom: 18px; }
+  .prefs-title { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 8px; }
+  .prefs-sub { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+  .prefs-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pref-tag { padding: 7px 14px; border-radius: 20px; font-size: 12px; font-weight: 500; border: 1.5px solid var(--border-md); background: white; color: var(--ink); cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.13s; display: flex; align-items: center; gap: 6px; }
+  .pref-tag:hover { border-color: var(--brand); }
+  .pref-tag.active { background: var(--brand-light); border-color: var(--brand); color: var(--brand); }
+
+  .freq-row { display: flex; gap: 8px; }
+  .freq-btn { flex: 1; padding: 10px 8px; border-radius: 8px; font-size: 13px; font-weight: 500; border: 1.5px solid var(--border-md); background: white; color: var(--ink); cursor: pointer; font-family: 'DM Sans', sans-serif; text-align: center; transition: all 0.13s; }
+  .freq-btn:hover { border-color: var(--brand); }
+  .freq-btn.active { background: var(--brand-light); border-color: var(--brand); color: var(--brand); }
+
+  /* CONSENT */
+  .consent-box { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; margin-bottom: 18px; font-size: 12px; color: var(--muted); line-height: 1.65; }
+  .consent-row { display: flex; align-items: flex-start; gap: 9px; margin-top: 10px; cursor: pointer; }
+  .consent-row input { margin-top: 2px; flex-shrink: 0; accent-color: var(--brand); }
+  .consent-row span { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  /* BUTTONS */
+  .submit-btn { width: 100%; background: var(--brand); color: white; border: none; padding: 14px; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 9px; transition: background 0.2s; }
+  .submit-btn:hover { background: var(--brand-dark); }
+  .submit-hint { text-align: center; margin-top: 10px; font-size: 12px; color: var(--muted); }
+
+  /* SUCCESS */
+  .success-panel { display: none; text-align: center; padding: 36px 20px; }
+  .big-check { width: 68px; height: 68px; border-radius: 50%; background: var(--brand-light); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 32px; color: var(--brand); }
+  .success-title { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 900; margin-bottom: 8px; }
+  .success-msg { font-size: 15px; color: var(--muted); line-height: 1.7; max-width: 400px; margin: 0 auto 22px; }
+  .cs-channels { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 22px; }
+  .cs-ch { display: flex; align-items: center; gap: 7px; padding: 9px 18px; border-radius: 20px; font-size: 13px; font-weight: 500; }
+  .cs-ch-email { background: var(--brand-light); color: var(--brand); }
+  .cs-ch-wa { background: var(--wa-light); color: var(--wa-dark); }
+  .success-schedule { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+  .unsub-link { font-size: 12px; color: var(--muted); cursor: pointer; text-decoration: underline; background: none; border: none; font-family: 'DM Sans', sans-serif; }
+
+  /* TESTIMONIALS */
+  .testimonials { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 24px 28px; }
+  .test-head { font-size: 11px; font-weight: 500; color: var(--muted); letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 18px; }
+  .test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .test-card { background: var(--surface); border-radius: 10px; padding: 16px; }
+  .test-stars { color: #C9862A; font-size: 12px; margin-bottom: 8px; letter-spacing: 1px; }
+  .test-text { font-size: 13px; color: var(--ink); line-height: 1.65; margin-bottom: 10px; font-style: italic; }
+  .test-author { font-size: 12px; font-weight: 500; color: var(--muted); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  .hero-banner { animation: fadeUp 0.5s ease both; }
+  .main-form-card { animation: fadeUp 0.5s 0.1s ease both; }
+
+  @media (max-width: 680px) {
+    .hero-banner { grid-template-columns: 1fr; }
+    .two-col { grid-template-columns: 1fr; }
+    .test-grid { grid-template-columns: 1fr; }
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    .freq-row { flex-wrap: wrap; }
+    .page-wrap { padding: 24px 20px 40px; }
+    .hero-title { font-size: 28px; }
+    .main-form-card { padding: 22px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">Namma<span>Events</span></a>
+    <div class="nav-links">
+      <a href="index.html"><i class="ti ti-arrow-left" style="font-size:14px"></i> Back to site</a>
+      <a href="organizer.html"><i class="ti ti-calendar-plus" style="font-size:14px"></i> List an event</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-wrap">
+
+  <!-- HERO -->
+  <div class="hero-banner">
+    <div>
+      <div class="hero-eyebrow">Weekly updates</div>
+      <div class="hero-title">Never miss an event<br>in <em>Namma Chennai.</em></div>
+      <div class="hero-sub">Get curated weekly picks of the best events happening around the city — delivered straight to your inbox or WhatsApp every Friday morning.</div>
+      <div class="hero-badges">
+        <div class="hbadge hbadge-email"><i class="ti ti-mail" style="font-size:13px"></i> Weekly email digest</div>
+        <div class="hbadge hbadge-wa"><i class="ti ti-brand-whatsapp" style="font-size:13px"></i> WhatsApp updates</div>
+      </div>
+    </div>
+    <div class="hero-counter">
+      <div class="counter-num" id="counter">4,218</div>
+      <div class="counter-sub">Chennaivasis subscribed</div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num">3,104</div><div class="stat-label"><i class="ti ti-mail" style="font-size:12px"></i> Email subscribers</div></div>
+    <div class="stat-card"><div class="stat-num">2,671</div><div class="stat-label"><i class="ti ti-brand-whatsapp" style="font-size:12px"></i> WhatsApp subscribers</div></div>
+    <div class="stat-card"><div class="stat-num" style="font-size:18px">Every Friday</div><div class="stat-label"><i class="ti ti-clock" style="font-size:12px"></i> Digest sent at 9 AM</div></div>
+  </div>
+
+  <!-- SUBSCRIBE FORM -->
+  <div class="main-form-card" id="form-card">
+
+    <div id="form-body">
+      <div class="form-head">
+        <div class="form-icons">
+          <div class="ficon ficon-email"><i class="ti ti-mail"></i></div>
+          <div class="ficon ficon-wa"><i class="ti ti-brand-whatsapp"></i></div>
+        </div>
+        <div class="form-head-text">
+          <h2>Subscribe for weekly Chennai events</h2>
+          <p>Provide email, WhatsApp, or both — choose what works for you</p>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="field">
+          <label>Your name <span style="color:var(--brand)">*</span></label>
+          <input type="text" id="sub-name" placeholder="e.g. Priya Ramesh"/>
+          <div class="err" id="err-name">Please enter your name</div>
+        </div>
+        <div class="field">
+          <label>Your area in Chennai</label>
+          <select id="sub-area">
+            <option value="">Any / all areas</option>
+            <option>T.Nagar</option><option>Mylapore</option><option>Anna Nagar</option>
+            <option>Adyar</option><option>Velachery</option><option>Nungambakkam</option>
+            <option>Egmore</option><option>OMR / Sholinganallur</option>
+            <option>ECR</option><option>Guindy</option><option>Other</option>
+          </select>
+        </div>
+      </div>
+
+      <hr class="section-divider"/>
+
+      <div class="channel-label email-ch"><i class="ti ti-mail"></i> Email updates</div>
+      <div class="field">
+        <label>Email address</label>
+        <input type="email" id="sub-email" placeholder="yourname@email.com"/>
+        <div class="err" id="err-email">Please enter a valid email address</div>
+        <div class="field-note">We send a beautifully curated digest every Friday. Unsubscribe anytime.</div>
+      </div>
+
+      <hr class="section-divider"/>
+
+      <div class="channel-label wa-ch"><i class="ti ti-brand-whatsapp"></i> WhatsApp updates</div>
+      <div class="wa-note">
+        <i class="ti ti-info-circle"></i>
+        <span>We send a short WhatsApp message every Friday with the top 5 events for the weekend. No spam, no forwards — just curated Chennai picks from our team.</span>
+      </div>
+      <div class="field">
+        <label>WhatsApp mobile number</label>
+        <div class="phone-row">
+          <select class="dial-sel" id="sub-dial">
+            <option value="+91">🇮🇳 +91 (India)</option>
+            <option value="+1">🇺🇸 +1 (USA)</option>
+            <option value="+44">🇬🇧 +44 (UK)</option>
+            <option value="+61">🇦🇺 +61 (Australia)</option>
+            <option value="+65">🇸🇬 +65 (Singapore)</option>
+            <option value="+971">🇦🇪 +971 (UAE)</option>
+            <option value="+60">🇲🇾 +60 (Malaysia)</option>
+          </select>
+          <input type="tel" id="sub-phone" placeholder="98765 43210" style="flex:1"/>
+        </div>
+        <div class="err" id="err-phone">Please enter a valid 10-digit mobile number</div>
+        <div class="field-note">Enter the number registered on WhatsApp. We'll only message you with event updates.</div>
+      </div>
+
+      <hr class="section-divider"/>
+
+      <div class="prefs-section">
+        <div class="prefs-title">Event categories you enjoy</div>
+        <div class="prefs-sub">We personalise your digest based on your interests (optional)</div>
+        <div class="prefs-row">
+          <button class="pref-tag active" onclick="this.classList.toggle('active')"><i class="ti ti-music"></i> Music</button>
+          <button class="pref-tag" onclick="this.classList.toggle('active')"><i class="ti ti-bowl"></i> Food & Drink</button>
+          <button class="pref-tag active" onclick="this.classList.toggle('active')"><i class="ti ti-palette"></i> Art & Culture</button>
+          <button class="pref-tag" onclick="this.classList.toggle('active')"><i class="ti ti-device-laptop"></i> Tech</button>
+          <button class="pref-tag" onclick="this.classList.toggle('active')"><i class="ti ti-run"></i> Sports</button>
+          <button class="pref-tag" onclick="this.classList.toggle('active')"><i class="ti ti-stars"></i> Kids & Family</button>
+          <button class="pref-tag" onclick="this.classList.toggle('active')"><i class="ti ti-masks-theater"></i> Comedy</button>
+          <button class="pref-tag active" onclick="this.classList.toggle('active')"><i class="ti ti-heart"></i> Wellness</button>
+        </div>
+      </div>
+
+      <div class="prefs-section">
+        <div class="prefs-title">How often would you like updates?</div>
+        <div class="freq-row">
+          <button class="freq-btn active" onclick="setFreq(this)"><i class="ti ti-calendar-week"></i> Weekly</button>
+          <button class="freq-btn" onclick="setFreq(this)"><i class="ti ti-calendar"></i> Bi-weekly</button>
+          <button class="freq-btn" onclick="setFreq(this)"><i class="ti ti-sun"></i> Daily highlights</button>
+        </div>
+      </div>
+
+      <div class="consent-box">
+        By subscribing, you agree to receive event update communications from NammaEvents via the contact details you've provided. Your information is never shared with third parties or used for advertising. We comply with applicable data protection laws.
+        <label class="consent-row">
+          <input type="checkbox" id="consent-chk"/>
+          <span id="consent-span">I agree to receive event updates from NammaEvents and understand I can unsubscribe at any time.</span>
+        </label>
+      </div>
+
+      <button class="submit-btn" onclick="doSubscribe()">
+        <i class="ti ti-bell"></i> Subscribe now — it's free
+      </button>
+      <div class="submit-hint"><i class="ti ti-lock" style="font-size:12px"></i> Sent every Friday at 9 AM · Zero spam · Unsubscribe in one click</div>
+    </div>
+
+    <!-- SUCCESS STATE -->
+    <div class="success-panel" id="success-panel">
+      <div class="big-check"><i class="ti ti-check"></i></div>
+      <div class="success-title" id="s-title">You're in!</div>
+      <div class="success-msg">Welcome to the NammaEvents community. Here's what to expect from us:</div>
+      <div class="cs-channels" id="s-channels"></div>
+      <div class="success-schedule" id="s-schedule"></div>
+      <a href="index.html" style="display:inline-flex;align-items:center;gap:8px;background:var(--brand);color:white;padding:12px 24px;border-radius:8px;font-size:14px;font-weight:500;text-decoration:none;margin-bottom:16px;transition:background 0.2s;" onmouseover="this.style.background='var(--brand-dark)'" onmouseout="this.style.background='var(--brand)'"><i class="ti ti-compass"></i> Browse upcoming events</a><br/>
+      <button class="unsub-link" onclick="resetForm()">Not you? Undo subscription</button>
+    </div>
+
+  </div><!-- /form-card -->
+
+  <!-- TESTIMONIALS -->
+  <div class="testimonials">
+    <div class="test-head">What our subscribers say</div>
+    <div class="test-grid">
+      <div class="test-card">
+        <div class="test-stars">★★★★★</div>
+        <div class="test-text">"The Friday digest is how I plan every weekend now. Found the Mylapore art walk and the Adyar food trail through it!"</div>
+        <div class="test-author"><i class="ti ti-user" style="font-size:11px"></i> Karthik S. · Anna Nagar</div>
+      </div>
+      <div class="test-card">
+        <div class="test-stars">★★★★★</div>
+        <div class="test-text">"Love the WhatsApp ping on Friday mornings. Short, to the point, and always things I actually want to attend."</div>
+        <div class="test-author"><i class="ti ti-user" style="font-size:11px"></i> Deepa M. · Adyar</div>
+      </div>
+      <div class="test-card">
+        <div class="test-stars">★★★★★</div>
+        <div class="test-text">"Discovered three new venues I'd never heard of before. Chennai has so much going on — NammaEvents keeps me in the loop."</div>
+        <div class="test-author"><i class="ti ti-user" style="font-size:11px"></i> Anand R. · OMR</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<footer style="background:var(--ink);padding:28px 0;margin-top:0;">
+  <div style="max-width:860px;margin:0 auto;padding:0 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+    <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:900;color:white;">Namma<span style="color:var(--brand)">Events</span></div>
+    <div style="font-size:12px;color:rgba(255,255,255,0.35);">© 2026 NammaEvents · Chennai, Tamil Nadu</div>
+    <div style="display:flex;gap:20px;">
+      <a href="index.html" style="font-size:12px;color:rgba(255,255,255,0.45);text-decoration:none;">Home</a>
+      <a href="organizer.html" style="font-size:12px;color:rgba(255,255,255,0.45);text-decoration:none;">List Event</a>
+      <a href="#" style="font-size:12px;color:rgba(255,255,255,0.45);text-decoration:none;">Privacy</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+function setFreq(btn) {
+  document.querySelectorAll('.freq-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function doSubscribe() {
+  const name = document.getElementById('sub-name').value.trim();
+  const email = document.getElementById('sub-email').value.trim();
+  const phone = document.getElementById('sub-phone').value.trim().replace(/\s/g, '');
+  const consent = document.getElementById('consent-chk').checked;
+
+  document.getElementById('err-name').style.display = 'none';
+  document.getElementById('err-email').style.display = 'none';
+  document.getElementById('err-phone').style.display = 'none';
+  document.getElementById('consent-span').style.color = '';
+
+  let ok = true;
+  if (!name) { document.getElementById('err-name').style.display = 'block'; ok = false; }
+  if (!email && !phone) {
+    document.getElementById('err-email').style.display = 'block';
+    document.getElementById('err-phone').style.display = 'block';
+    ok = false;
+  }
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    document.getElementById('err-email').style.display = 'block'; ok = false;
+  }
+  if (phone && !/^\d{10}$/.test(phone)) {
+    document.getElementById('err-phone').style.display = 'block'; ok = false;
+  }
+  if (!consent) { document.getElementById('consent-span').style.color = '#E24B4A'; ok = false; }
+  if (!ok) return;
+
+  const firstName = name.split(' ')[0];
+  const freq = document.querySelector('.freq-btn.active').textContent.trim();
+  const dial = document.getElementById('sub-dial').value;
+  const freqMap = { 'Weekly': 'every Friday at 9 AM', 'Bi-weekly': 'every other Friday at 9 AM', 'Daily highlights': 'every morning at 8 AM' };
+
+  document.getElementById('s-title').textContent = "You're in, " + firstName + "!";
+
+  const channels = [];
+  if (email) channels.push('<div class="cs-ch cs-ch-email"><i class="ti ti-mail"></i>' + email + '</div>');
+  if (phone) channels.push('<div class="cs-ch cs-ch-wa"><i class="ti ti-brand-whatsapp"></i>' + dial + ' ' + phone + '</div>');
+  document.getElementById('s-channels').innerHTML = channels.join('');
+  document.getElementById('s-schedule').textContent = 'Updates sent ' + (freqMap[freq] || 'weekly') + '. Unsubscribe anytime from any message.';
+
+  const counterEl = document.getElementById('counter');
+  let n = parseInt(counterEl.textContent.replace(/,/g, ''));
+  n++;
+  counterEl.textContent = n.toLocaleString('en-IN');
+
+  document.getElementById('form-body').style.display = 'none';
+  document.getElementById('success-panel').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function resetForm() {
+  document.getElementById('form-body').style.display = 'block';
+  document.getElementById('success-panel').style.display = 'none';
+  document.getElementById('sub-name').value = '';
+  document.getElementById('sub-email').value = '';
+  document.getElementById('sub-phone').value = '';
+  document.getElementById('consent-chk').checked = false;
+}
+</script>
+</body>
+</html>

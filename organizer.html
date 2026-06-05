@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>List Your Event — NammaEvents Chennai</title>
+<meta name="description" content="List your event on NammaEvents and reach thousands of Chennai event-goers. Easy 4-step submission."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --brand: #C8371A; --brand-light: #F5E8E4; --brand-dark: #8C2010;
+    --gold: #C9862A; --gold-light: #FAF0DC;
+    --ink: #1A1410; --muted: #6B5E57; --surface: #FDFAF8;
+    --border: rgba(26,20,16,0.1); --border-md: rgba(26,20,16,0.18);
+    --success: #1A6B3A; --success-light: #E4F5E8;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--surface); color: var(--ink); }
+
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(253,250,248,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
+  .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: var(--ink); text-decoration: none; }
+  .logo span { color: var(--brand); }
+  .nav-links { display: flex; gap: 28px; align-items: center; }
+  .nav-links a { font-size: 13px; font-weight: 500; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-back { display: flex; align-items: center; gap: 6px; color: var(--muted) !important; }
+
+  .page-wrap { max-width: 1100px; margin: 0 auto; padding: 40px 32px 60px; }
+
+  .portal-header { background: var(--ink); border-radius: 14px; padding: 36px 40px; margin-bottom: 28px; display: flex; align-items: center; justify-content: space-between; }
+  .portal-header-left {}
+  .portal-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 8px; }
+  .portal-title { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 900; color: white; line-height: 1.1; }
+  .portal-title em { color: #C8371A; font-style: normal; }
+  .portal-header-right { text-align: right; }
+  .portal-header-right p { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.6; max-width: 240px; }
+  .portal-badges { display: flex; gap: 10px; margin-top: 12px; justify-content: flex-end; flex-wrap: wrap; }
+  .pbadge { display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: 500; }
+  .pbadge-free { background: rgba(26,107,58,0.25); color: #5AE68A; }
+  .pbadge-fast { background: rgba(200,55,26,0.25); color: #F5A090; }
+
+  .steps-row { display: flex; gap: 0; margin-bottom: 28px; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .step { flex: 1; padding: 14px 18px; background: var(--surface); cursor: default; }
+  .step:not(:last-child) { border-right: 1px solid var(--border); }
+  .step.active { background: var(--brand-light); }
+  .step.done { background: var(--success-light); }
+  .step-num { font-size: 10px; color: var(--muted); font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 3px; }
+  .step.active .step-num { color: var(--brand); }
+  .step.done .step-num { color: var(--success); }
+  .step-label { font-size: 13px; font-weight: 500; color: var(--ink); }
+  .step.done .step-label::before { content: "✓ "; }
+
+  .main-layout { display: grid; grid-template-columns: 1fr 320px; gap: 22px; align-items: start; }
+
+  .form-card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 30px 30px; }
+  .section-head { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; margin-bottom: 22px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+  .section-head-sub { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 400; color: var(--muted); margin-top: 4px; }
+
+  .field { margin-bottom: 18px; }
+  .field label { display: block; font-size: 11px; font-weight: 500; color: var(--muted); letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 6px; }
+  .field input, .field select, .field textarea { width: 100%; padding: 10px 14px; border: 1px solid var(--border-md); border-radius: 7px; font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--ink); background: white; outline: none; transition: border-color 0.2s; }
+  .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--brand); }
+  .field textarea { resize: vertical; min-height: 96px; line-height: 1.6; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .field-note { font-size: 11px; color: var(--muted); margin-top: 4px; line-height: 1.5; }
+  .req { color: var(--brand); }
+  .err { font-size: 11px; color: #E24B4A; margin-top: 3px; display: none; }
+  .char-count { font-size: 11px; color: var(--muted); float: right; font-weight: 400; text-transform: none; letter-spacing: 0; }
+
+  .tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .tag-opt { padding: 8px 15px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1.5px solid var(--border-md); background: white; color: var(--ink); font-family: 'DM Sans', sans-serif; transition: all 0.13s; display: flex; align-items: center; gap: 6px; }
+  .tag-opt:hover { border-color: var(--brand); }
+  .tag-opt.sel { background: var(--brand-light); border-color: var(--brand); color: var(--brand); }
+
+  .phone-row { display: flex; gap: 8px; }
+  .dial-sel { width: 100px !important; flex-shrink: 0; }
+
+  .ticket-header { display: grid; grid-template-columns: 2fr 1fr 1fr 36px; gap: 8px; margin-bottom: 6px; }
+  .ticket-header span { font-size: 10px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .ticket-rows { display: flex; flex-direction: column; gap: 10px; }
+  .ticket-row { display: grid; grid-template-columns: 2fr 1fr 1fr 36px; gap: 8px; align-items: center; }
+  .ticket-row input { padding: 9px 12px; font-size: 13px; }
+  .remove-btn { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: none; border: 1px solid var(--border-md); border-radius: 7px; cursor: pointer; color: var(--muted); font-size: 16px; transition: all 0.15s; }
+  .remove-btn:hover { border-color: #E24B4A; color: #E24B4A; background: #FCEBEB; }
+  .add-ticket-btn { width: 100%; margin-top: 10px; padding: 10px; border: 1.5px dashed var(--brand); border-radius: 7px; background: none; color: var(--brand); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: background 0.15s; }
+  .add-ticket-btn:hover { background: var(--brand-light); }
+
+  .upload-zone { border: 1.5px dashed var(--border-md); border-radius: 8px; padding: 32px 20px; text-align: center; cursor: pointer; transition: all 0.15s; background: var(--surface); }
+  .upload-zone:hover { border-color: var(--brand); background: var(--brand-light); }
+  .upload-icon { font-size: 32px; color: var(--muted); margin-bottom: 10px; }
+  .upload-text { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .upload-text strong { color: var(--brand); font-weight: 500; }
+  .upload-success { font-size: 12px; color: var(--success); margin-top: 8px; display: none; align-items: center; gap: 4px; }
+
+  .featured-upsell { background: var(--gold-light); border: 1px solid rgba(201,134,42,0.25); border-radius: 10px; padding: 16px 18px; }
+  .featured-upsell-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .featured-upsell-head span:first-child { font-size: 14px; font-weight: 500; color: #633806; }
+  .featured-upsell-head span:last-child { font-size: 13px; font-weight: 500; color: #633806; }
+  .featured-upsell p { font-size: 12px; color: #854F0B; line-height: 1.6; margin-bottom: 10px; }
+  .featured-upsell label { display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px; color: #633806; }
+
+  .checklist-item { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 13px; }
+  .checklist-item.ok { color: var(--success); }
+  .checklist-item.fail { color: var(--muted); }
+
+  .form-actions { display: flex; gap: 12px; margin-top: 26px; padding-top: 20px; border-top: 1px solid var(--border); }
+  .btn-back { background: none; border: 1px solid var(--border-md); padding: 11px 22px; border-radius: 7px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; color: var(--ink); display: flex; align-items: center; gap: 6px; transition: border-color 0.2s; }
+  .btn-back:hover { border-color: var(--ink); }
+  .btn-next { background: var(--brand); color: white; border: none; padding: 11px 28px; border-radius: 7px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: background 0.2s; margin-left: auto; }
+  .btn-next:hover { background: var(--brand-dark); }
+  .btn-submit { background: var(--success); color: white; border: none; padding: 11px 28px; border-radius: 7px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: opacity 0.2s; margin-left: auto; }
+  .btn-submit:hover { opacity: 0.88; }
+
+  /* PREVIEW */
+  .preview-sticky { position: sticky; top: 84px; }
+  .preview-card { background: white; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 14px; }
+  .preview-label { font-size: 10px; font-weight: 500; color: var(--muted); letter-spacing: 0.8px; text-transform: uppercase; padding: 14px 16px 0; }
+  .preview-thumb { height: 140px; display: flex; align-items: flex-end; padding: 14px; position: relative; background: var(--ink); }
+  .preview-thumb-pattern { position: absolute; inset: 0; opacity: 0.1; background-image: repeating-linear-gradient(45deg, white 0, white 1px, transparent 0, transparent 50%); background-size: 8px 8px; }
+  .preview-event-title { position: relative; font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 700; color: white; line-height: 1.2; }
+  .preview-body { padding: 14px 16px; }
+  .preview-badge { display: inline-block; font-size: 10px; font-weight: 500; letter-spacing: 0.8px; text-transform: uppercase; padding: 3px 9px; border-radius: 3px; margin-bottom: 9px; background: var(--brand-light); color: var(--brand); }
+  .preview-meta { font-size: 12px; color: var(--muted); margin-bottom: 3px; display: flex; align-items: center; gap: 5px; }
+  .preview-desc { font-size: 12px; color: var(--muted); line-height: 1.6; margin-top: 9px; padding-top: 9px; border-top: 1px solid var(--border); }
+  .preview-footer { padding: 10px 16px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+  .preview-price { font-size: 16px; font-weight: 500; }
+  .preview-price-sub { font-size: 10px; color: var(--muted); }
+  .preview-book-btn { background: var(--brand); color: white; border: none; padding: 8px 16px; border-radius: 5px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; cursor: pointer; }
+
+  .tips-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; }
+  .tips-head { font-size: 10px; font-weight: 500; color: var(--muted); letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 12px; }
+  .tip-item { display: flex; gap: 10px; margin-bottom: 10px; font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .tip-icon { color: var(--brand); font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+
+  /* SUCCESS */
+  .success-screen { text-align: center; padding: 52px 24px; }
+  .success-icon { font-size: 52px; color: var(--success); margin-bottom: 20px; }
+  .success-title { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 900; margin-bottom: 10px; }
+  .success-sub { font-size: 15px; color: var(--muted); line-height: 1.7; max-width: 420px; margin: 0 auto 24px; }
+  .success-ref { background: var(--success-light); border-radius: 8px; padding: 12px 24px; display: inline-block; font-size: 14px; color: var(--success); margin-bottom: 28px; }
+  .success-ref strong { font-weight: 500; }
+  .success-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+  @media (max-width: 900px) {
+    .main-layout { grid-template-columns: 1fr; }
+    .preview-sticky { position: static; }
+    .portal-header { flex-direction: column; gap: 16px; align-items: flex-start; }
+    .portal-header-right { text-align: left; }
+    .portal-badges { justify-content: flex-start; }
+  }
+  @media (max-width: 600px) {
+    .field-row { grid-template-columns: 1fr; }
+    .ticket-header, .ticket-row { grid-template-columns: 1fr 80px 70px 36px; }
+    .page-wrap { padding: 24px 20px 40px; }
+    .steps-row { flex-wrap: wrap; }
+    .step { min-width: 50%; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">Namma<span>Events</span></a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-back"><i class="ti ti-arrow-left" style="font-size:14px"></i> Back to site</a>
+      <a href="subscribe.html">Subscribe</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-wrap">
+
+  <div class="portal-header">
+    <div class="portal-header-left">
+      <div class="portal-eyebrow">Organizer Portal</div>
+      <div class="portal-title">List your event in<br><em>Namma Chennai.</em></div>
+    </div>
+    <div class="portal-header-right">
+      <p>Reach thousands of Chennai event-goers. It takes just 5 minutes to go live.</p>
+      <div class="portal-badges">
+        <div class="pbadge pbadge-free"><i class="ti ti-check" style="font-size:12px"></i> Free to list</div>
+        <div class="pbadge pbadge-fast"><i class="ti ti-bolt" style="font-size:12px"></i> Live in 24 hrs</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="steps-row">
+    <div class="step active" id="step-tab-1"><div class="step-num">Step 1</div><div class="step-label">Event basics</div></div>
+    <div class="step" id="step-tab-2"><div class="step-num">Step 2</div><div class="step-label">Date & venue</div></div>
+    <div class="step" id="step-tab-3"><div class="step-num">Step 3</div><div class="step-label">Tickets & pricing</div></div>
+    <div class="step" id="step-tab-4"><div class="step-num">Step 4</div><div class="step-label">Media & review</div></div>
+  </div>
+
+  <div class="main-layout">
+
+    <div class="form-card" id="form-card">
+
+      <!-- PAGE 1 -->
+      <div id="page-1">
+        <div class="section-head">Tell us about your event<div class="section-head-sub">Basic information visible to all attendees</div></div>
+        <div class="field">
+          <label>Event name <span class="req">*</span></label>
+          <input type="text" id="f-name" placeholder="e.g. Chennai Jazz Night 2026" oninput="syncPreview()"/>
+          <div class="err" id="err-name">Please enter an event name</div>
+        </div>
+        <div class="field">
+          <label>Category <span class="req">*</span></label>
+          <div class="tag-row" id="cat-tags">
+            <button class="tag-opt" onclick="selectCat(this,'Music')"><i class="ti ti-music"></i> Music</button>
+            <button class="tag-opt" onclick="selectCat(this,'Food & Drink')"><i class="ti ti-bowl"></i> Food & Drink</button>
+            <button class="tag-opt" onclick="selectCat(this,'Art & Culture')"><i class="ti ti-palette"></i> Art & Culture</button>
+            <button class="tag-opt" onclick="selectCat(this,'Tech & Business')"><i class="ti ti-device-laptop"></i> Tech & Business</button>
+            <button class="tag-opt" onclick="selectCat(this,'Sports & Fitness')"><i class="ti ti-run"></i> Sports & Fitness</button>
+            <button class="tag-opt" onclick="selectCat(this,'Kids & Family')"><i class="ti ti-stars"></i> Kids & Family</button>
+            <button class="tag-opt" onclick="selectCat(this,'Comedy & Theatre')"><i class="ti ti-masks-theater"></i> Comedy & Theatre</button>
+            <button class="tag-opt" onclick="selectCat(this,'Wellness')"><i class="ti ti-heart"></i> Wellness</button>
+          </div>
+          <div class="err" id="err-cat">Please select a category</div>
+        </div>
+        <div class="field">
+          <label>Short description <span class="req">*</span> <span class="char-count" id="desc-count">0 / 200</span></label>
+          <textarea id="f-desc" placeholder="What makes your event special? This appears on the event card and search results…" oninput="countDesc(); syncPreview()"></textarea>
+          <div class="field-note">Keep it punchy and exciting — attendees see this first.</div>
+          <div class="err" id="err-desc">Please add a description (min 20 characters)</div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Organizer / organization name <span class="req">*</span></label>
+            <input type="text" id="f-org" placeholder="e.g. Chennai Music Trust"/>
+            <div class="err" id="err-org">Required</div>
+          </div>
+          <div class="field">
+            <label>Organizer website</label>
+            <input type="url" placeholder="https://"/>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Contact email <span class="req">*</span></label>
+            <input type="email" id="f-email" placeholder="organizer@email.com"/>
+            <div class="err" id="err-email">Valid email required</div>
+          </div>
+          <div class="field">
+            <label>Contact phone</label>
+            <div class="phone-row">
+              <select class="dial-sel"><option>+91</option><option>+1</option><option>+44</option></select>
+              <input type="tel" placeholder="98765 43210" style="flex:1"/>
+            </div>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="btn-next" onclick="goStep(2,1)"><i class="ti ti-arrow-right"></i> Next: Date & venue</button>
+        </div>
+      </div>
+
+      <!-- PAGE 2 -->
+      <div id="page-2" style="display:none">
+        <div class="section-head">Date, time & venue<div class="section-head-sub">Where and when is your event happening?</div></div>
+        <div class="field-row">
+          <div class="field">
+            <label>Start date <span class="req">*</span></label>
+            <input type="date" id="f-date" oninput="syncPreview()"/>
+            <div class="err" id="err-date">Required</div>
+          </div>
+          <div class="field">
+            <label>End date</label>
+            <input type="date" id="f-enddate"/>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Start time <span class="req">*</span></label>
+            <input type="time" id="f-time" oninput="syncPreview()"/>
+            <div class="err" id="err-time">Required</div>
+          </div>
+          <div class="field">
+            <label>End time</label>
+            <input type="time"/>
+          </div>
+        </div>
+        <div class="field">
+          <label>Venue name <span class="req">*</span></label>
+          <input type="text" id="f-venue" placeholder="e.g. Music Academy, T.Nagar" oninput="syncPreview()"/>
+          <div class="err" id="err-venue">Required</div>
+        </div>
+        <div class="field">
+          <label>Full address <span class="req">*</span></label>
+          <input type="text" placeholder="Street, area, Chennai — PIN code"/>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Area / neighbourhood</label>
+            <select>
+              <option value="">Select area</option>
+              <option>T.Nagar</option><option>Mylapore</option><option>Anna Nagar</option>
+              <option>Adyar</option><option>Velachery</option><option>Nungambakkam</option>
+              <option>Egmore</option><option>Royapettah</option><option>Guindy</option>
+              <option>OMR / Sholinganallur</option><option>ECR</option><option>Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Expected attendance</label>
+            <select>
+              <option>Under 50</option><option>50 – 200</option><option>200 – 500</option>
+              <option>500 – 1,000</option><option>1,000+</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Event format</label>
+          <div class="tag-row">
+            <button class="tag-opt sel" onclick="toggleTag(this)"><i class="ti ti-map-pin"></i> In-person</button>
+            <button class="tag-opt" onclick="toggleTag(this)"><i class="ti ti-video"></i> Online</button>
+            <button class="tag-opt" onclick="toggleTag(this)"><i class="ti ti-arrows-left-right"></i> Hybrid</button>
+          </div>
+        </div>
+        <div class="field">
+          <label>Accessibility features</label>
+          <div class="tag-row">
+            <button class="tag-opt" onclick="toggleTag(this)"><i class="ti ti-wheelchair"></i> Wheelchair accessible</button>
+            <button class="tag-opt" onclick="toggleTag(this)"><i class="ti ti-parking"></i> Parking available</button>
+            <button class="tag-opt" onclick="toggleTag(this)"><i class="ti ti-train"></i> Near metro station</button>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="btn-back" onclick="goStep(1,2)"><i class="ti ti-arrow-left"></i> Back</button>
+          <button class="btn-next" onclick="goStep(3,2)"><i class="ti ti-arrow-right"></i> Next: Tickets</button>
+        </div>
+      </div>
+
+      <!-- PAGE 3 -->
+      <div id="page-3" style="display:none">
+        <div class="section-head">Tickets & pricing<div class="section-head-sub">Define your ticket tiers and quantities</div></div>
+        <div class="field">
+          <label>Ticket tiers <span class="req">*</span></label>
+          <div class="ticket-header">
+            <span>Tier name</span><span>Price (₹)</span><span>Qty</span><span></span>
+          </div>
+          <div class="ticket-rows" id="ticket-rows">
+            <div class="ticket-row">
+              <input type="text" value="General admission" placeholder="Tier name" oninput="syncPreview()"/>
+              <input type="number" id="t-price-0" value="500" min="0" placeholder="₹" oninput="syncPreview()"/>
+              <input type="number" value="100" min="1" placeholder="Qty"/>
+              <button class="remove-btn" onclick="removeTicket(this)" aria-label="Remove"><i class="ti ti-x"></i></button>
+            </div>
+          </div>
+          <button class="add-ticket-btn" onclick="addTicket()"><i class="ti ti-plus"></i> Add ticket tier</button>
+          <div class="field-note">Add tiers like Early Bird, VIP, Student, or Free entry. Set price to 0 for free tickets.</div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Registration deadline</label>
+            <input type="date"/>
+          </div>
+          <div class="field">
+            <label>Minimum age</label>
+            <select><option>All ages</option><option>5+</option><option>12+</option><option>18+</option><option>21+</option></select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Refund policy</label>
+          <div class="tag-row">
+            <button class="tag-opt sel" onclick="singleToggle(this,'.refund-tag')">No refunds</button>
+            <button class="tag-opt refund-tag" onclick="singleToggle(this,'.refund-tag')">Refund up to 7 days prior</button>
+            <button class="tag-opt refund-tag" onclick="singleToggle(this,'.refund-tag')">Refund up to 48 hrs prior</button>
+            <button class="tag-opt refund-tag" onclick="singleToggle(this,'.refund-tag')">Full refund anytime</button>
+          </div>
+        </div>
+        <div class="field">
+          <label>Special instructions for attendees</label>
+          <textarea placeholder="Parking info, dress code, age restrictions, what to bring, COVID protocols…" style="min-height:80px"></textarea>
+        </div>
+        <div class="form-actions">
+          <button class="btn-back" onclick="goStep(2,3)"><i class="ti ti-arrow-left"></i> Back</button>
+          <button class="btn-next" onclick="goStep(4,3)"><i class="ti ti-arrow-right"></i> Next: Media & review</button>
+        </div>
+      </div>
+
+      <!-- PAGE 4 -->
+      <div id="page-4" style="display:none">
+        <div class="section-head">Media & final review<div class="section-head-sub">Upload your banner and check everything looks good</div></div>
+        <div class="field">
+          <label>Event banner image</label>
+          <div class="upload-zone" onclick="fakeUpload()" id="upload-zone">
+            <div class="upload-icon"><i class="ti ti-photo-up"></i></div>
+            <div class="upload-text"><strong>Click to upload</strong> or drag & drop<br>JPG or PNG · Min 1200 × 600 px · Max 5 MB</div>
+          </div>
+          <div class="upload-success" id="upload-success"><i class="ti ti-circle-check" style="font-size:14px"></i> event_banner.jpg uploaded successfully</div>
+        </div>
+        <div class="field">
+          <label>Tags / keywords</label>
+          <input type="text" placeholder="e.g. classical, live music, outdoor, family-friendly, weekend"/>
+          <div class="field-note">Comma-separated. Helps attendees discover your event in search.</div>
+        </div>
+        <div class="field">
+          <label>Featured listing (optional)</label>
+          <div class="featured-upsell">
+            <div class="featured-upsell-head">
+              <span><i class="ti ti-star" style="font-size:14px;vertical-align:-2px"></i> Featured placement</span>
+              <span>₹999 / event</span>
+            </div>
+            <p>Appear at the top of search results and on the homepage for 7 days before your event. 3× more views on average.</p>
+            <label><input type="checkbox" id="featured-check"/> Add featured placement (₹999)</label>
+          </div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px 20px;">
+          <div style="font-size:11px;font-weight:500;color:var(--muted);letter-spacing:0.6px;text-transform:uppercase;margin-bottom:12px;">Submission checklist</div>
+          <div id="checklist-items"></div>
+        </div>
+        <div class="form-actions">
+          <button class="btn-back" onclick="goStep(3,4)"><i class="ti ti-arrow-left"></i> Back</button>
+          <button class="btn-submit" onclick="submitForm()"><i class="ti ti-send"></i> Submit for review</button>
+        </div>
+      </div>
+
+      <!-- SUCCESS -->
+      <div id="page-success" style="display:none">
+        <div class="success-screen">
+          <div class="success-icon"><i class="ti ti-circle-check"></i></div>
+          <div class="success-title">Event submitted!</div>
+          <div class="success-sub">Your event is now under review by our team. We'll confirm within 24 hours or reach out if we need anything.</div>
+          <div class="success-ref">Reference ID: <strong id="ref-id"></strong></div>
+          <div class="success-actions">
+            <a href="index.html" class="btn-next" style="text-decoration:none"><i class="ti ti-home"></i> Back to homepage</a>
+            <button class="btn-back" onclick="resetForm()"><i class="ti ti-plus"></i> Submit another event</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /form-card -->
+
+    <!-- SIDEBAR -->
+    <div class="preview-sticky">
+      <div class="preview-card">
+        <div class="preview-label">Live preview</div>
+        <div class="preview-thumb" id="preview-thumb">
+          <div class="preview-thumb-pattern"></div>
+          <div class="preview-event-title" id="preview-title">Your event name</div>
+        </div>
+        <div class="preview-body">
+          <div class="preview-badge" id="preview-cat">Category</div>
+          <div class="preview-meta" id="preview-date"><i class="ti ti-calendar" style="font-size:12px"></i> Date TBD</div>
+          <div class="preview-meta" id="preview-venue-p"><i class="ti ti-map-pin" style="font-size:12px"></i> Venue TBD</div>
+          <div class="preview-desc" id="preview-desc">Your event description will appear here…</div>
+        </div>
+        <div class="preview-footer">
+          <div>
+            <div class="preview-price-sub">From</div>
+            <div class="preview-price" id="preview-price">₹ —</div>
+          </div>
+          <button class="preview-book-btn">Book now</button>
+        </div>
+      </div>
+      <div class="tips-card">
+        <div class="tips-head">Tips for more bookings</div>
+        <div class="tip-item"><i class="ti ti-photo tip-icon"></i><span>Use a vivid banner — events with photos get 3× more clicks.</span></div>
+        <div class="tip-item"><i class="ti ti-clock tip-icon"></i><span>List at least 2 weeks ahead for best reach.</span></div>
+        <div class="tip-item"><i class="ti ti-tag tip-icon"></i><span>Add an Early Bird tier to drive early ticket sales.</span></div>
+        <div class="tip-item"><i class="ti ti-star tip-icon"></i><span>Featured listing gets 3× more impressions on the homepage.</span></div>
+      </div>
+    </div>
+
+  </div><!-- /main-layout -->
+</div><!-- /page-wrap -->
+
+<script>
+let currentStep = 1;
+let selCat = '';
+
+function goStep(to, from) {
+  document.getElementById('page-' + from).style.display = 'none';
+  document.getElementById('step-tab-' + from).classList.remove('active');
+  if (to > from) document.getElementById('step-tab-' + from).classList.add('done');
+  currentStep = to;
+  document.getElementById('page-' + to).style.display = 'block';
+  document.getElementById('step-tab-' + to).classList.add('active');
+  document.getElementById('step-tab-' + to).classList.remove('done');
+  if (to === 4) buildChecklist();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function selectCat(btn, cat) {
+  document.querySelectorAll('#cat-tags .tag-opt').forEach(b => b.classList.remove('sel'));
+  btn.classList.add('sel');
+  selCat = cat;
+  document.getElementById('preview-cat').textContent = cat;
+  const colors = { 'Music': '#C8371A', 'Food & Drink': '#C9862A', 'Art & Culture': '#1A6B3A', 'Tech & Business': '#1A3A8C', 'Sports & Fitness': '#0A6B6B', 'Kids & Family': '#6B1A8C', 'Comedy & Theatre': '#6B3A1A', 'Wellness': '#1A6B5A' };
+  document.getElementById('preview-thumb').style.background = colors[cat] || '#1A1410';
+}
+
+function toggleTag(btn) { btn.classList.toggle('sel'); }
+
+function singleToggle(btn, cls) {
+  document.querySelectorAll(cls).forEach(b => b.classList.remove('sel'));
+  btn.classList.add('sel');
+}
+
+function syncPreview() {
+  const name = document.getElementById('f-name').value || 'Your event name';
+  document.getElementById('preview-title').textContent = name;
+  const desc = document.getElementById('f-desc').value;
+  document.getElementById('preview-desc').textContent = desc ? desc.substring(0, 120) + (desc.length > 120 ? '…' : '') : 'Your event description will appear here…';
+  const dateVal = document.getElementById('f-date').value;
+  const timeVal = document.getElementById('f-time').value;
+  if (dateVal) {
+    const d = new Date(dateVal + 'T00:00:00');
+    document.getElementById('preview-date').innerHTML = '<i class="ti ti-calendar" style="font-size:12px"></i> ' + d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) + (timeVal ? ' · ' + fmtTime(timeVal) : '');
+  }
+  const venue = document.getElementById('f-venue') ? document.getElementById('f-venue').value : '';
+  if (venue) document.getElementById('preview-venue-p').innerHTML = '<i class="ti ti-map-pin" style="font-size:12px"></i> ' + venue;
+  const priceEl = document.getElementById('t-price-0');
+  if (priceEl) {
+    const v = parseInt(priceEl.value);
+    document.getElementById('preview-price').textContent = isNaN(v) || v === 0 ? 'Free' : '₹' + v.toLocaleString('en-IN');
+  }
+}
+
+function fmtTime(t) {
+  const [h, m] = t.split(':');
+  const hr = parseInt(h);
+  return (hr > 12 ? hr - 12 : hr || 12) + ':' + (m || '00') + ' ' + (hr >= 12 ? 'PM' : 'AM');
+}
+
+function countDesc() {
+  const v = document.getElementById('f-desc').value.length;
+  document.getElementById('desc-count').textContent = Math.min(v, 200) + ' / 200';
+}
+
+let ticketCount = 1;
+function addTicket() {
+  ticketCount++;
+  const row = document.createElement('div');
+  row.className = 'ticket-row';
+  row.innerHTML = '<input type="text" placeholder="Tier name (e.g. VIP)"/><input type="number" min="0" placeholder="₹" value="0"/><input type="number" min="1" placeholder="Qty" value="50"/><button class="remove-btn" onclick="removeTicket(this)" aria-label="Remove"><i class="ti ti-x"></i></button>';
+  document.getElementById('ticket-rows').appendChild(row);
+}
+
+function removeTicket(btn) {
+  if (document.querySelectorAll('.ticket-row').length > 1) btn.closest('.ticket-row').remove();
+}
+
+function fakeUpload() {
+  const zone = document.getElementById('upload-zone');
+  zone.style.borderColor = 'var(--success)';
+  zone.style.background = 'var(--success-light)';
+  zone.querySelector('.upload-icon i').className = 'ti ti-circle-check';
+  zone.querySelector('.upload-icon i').style.color = 'var(--success)';
+  zone.querySelector('.upload-text').innerHTML = '<strong style="color:var(--success)">event_banner.jpg</strong><br>Uploaded successfully';
+  document.getElementById('upload-success').style.display = 'flex';
+}
+
+function buildChecklist() {
+  const checks = [
+    { label: 'Event name', ok: !!document.getElementById('f-name').value },
+    { label: 'Category selected', ok: !!selCat },
+    { label: 'Description written', ok: document.getElementById('f-desc').value.length >= 20 },
+    { label: 'Organizer name', ok: !!document.getElementById('f-org').value },
+    { label: 'Contact email', ok: !!document.getElementById('f-email').value },
+    { label: 'Start date & time', ok: !!(document.getElementById('f-date').value && document.getElementById('f-time').value) },
+    { label: 'Venue name', ok: !!document.getElementById('f-venue').value },
+  ];
+  document.getElementById('checklist-items').innerHTML = checks.map(c => `
+    <div class="checklist-item ${c.ok ? 'ok' : 'fail'}">
+      <i class="ti ${c.ok ? 'ti-circle-check' : 'ti-circle-x'}" style="font-size:16px;flex-shrink:0"></i>
+      <span>${c.label}</span>
+    </div>`).join('');
+}
+
+function submitForm() {
+  const ref = 'NE-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+  document.getElementById('ref-id').textContent = ref;
+  document.getElementById('page-4').style.display = 'none';
+  document.getElementById('step-tab-4').classList.remove('active');
+  document.getElementById('step-tab-4').classList.add('done');
+  document.getElementById('page-success').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function resetForm() {
+  location.reload();
+}
+</script>
+</body>
+</html>

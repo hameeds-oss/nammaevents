@@ -1,0 +1,15 @@
+[build]
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/organizer"
+  to   = "/organizer.html"
+  status = 200
+
+[[redirects]]
+  from = "/subscribe"
+  to   = "/subscribe.html"
+  status = 200
+
+[functions]
+  node_bundler = "esbuild"
