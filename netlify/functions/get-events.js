@@ -1,11 +1,12 @@
-// NammaEvents — Live Chennai events via Eventbrite API
+// NammaEvents — Live Chennai events via Ticketmaster Discovery API
 // Deployed at: /.netlify/functions/get-events
+// Free API: https://developer.ticketmaster.com
 
 exports.handler = async function (event) {
   const cat = event.queryStringParameters?.category || "all";
 
   try {
-    const events = await fetchEventbrite(cat);
+    const events = await fetchTicketmaster(cat);
 
     return {
       statusCode: 200,
@@ -16,7 +17,7 @@ exports.handler = async function (event) {
       },
       body: JSON.stringify({
         events:  events.length ? events : fallbackEvents(),
-        source:  events.length ? "eventbrite" : "fallback",
+        source:  events.length ? "ticketmaster" : "fallback",
         count:   events.length || fallbackEvents().length,
         fetched: new Date().toISOString(),
       }),
@@ -37,131 +38,94 @@ exports.handler = async function (event) {
   }
 };
 
-// ── Eventbrite ────────────────────────────────────────────────────────────────
-async function fetchEventbrite(cat) {
-  const key = process.env.EVENTBRITE_API_KEY;
-  if (!key) throw new Error("EVENTBRITE_API_KEY not set");
+// ── Ticketmaster Discovery API ────────────────────────────────────────────────
+async function fetchTicketmaster(cat) {
+  const key = process.env.TICKETMASTER_API_KEY;
+  if (!key) throw new Error("TICKETMASTER_API_KEY not set");
 
-  // Eventbrite category IDs
+  // Ticketmaster segment/classification IDs for categories
   const catMap = {
     all:   "",
-    music: "103",
-    food:  "110",
-    art:   "105",
-    tech:  "102",
-    sport: "108",
-    kids:  "115",
+    music: "KZFzniwnSyZfZ7v7nJ",  // Music
+    art:   "KZFzniwnSyZfZ7v7na",  // Arts & Theatre
+    sport: "KZFzniwnSyZfZ7v7nE",  // Sports
+    kids:  "KZFzniwnSyZfZ7v7n1",  // Family
+    food:  "",
+    tech:  "",
   };
 
   const params = new URLSearchParams({
-    "location.address":   "Chennai, Tamil Nadu, India",
-    "location.within":    "30km",
-    "expand":             "venue,ticket_classes,logo",
-    "sort_by":            "date",
-    "start_date.keyword": "today",
-    "page_size":          "20",
-    ...(catMap[cat] && { "categories": catMap[cat] }),
+    apikey:         key,
+    city:           "Chennai",
+    countryCode:    "IN",
+    size:           "20",
+    sort:           "date,asc",
+    startDateTime:  new Date().toISOString().split(".")[0] + "Z",
+    ...(catMap[cat] && { segmentId: catMap[cat] }),
   });
 
   const res = await fetch(
-    `https://www.eventbriteapi.com/v3/events/search/?${params}`,
-    {
-      headers: {
-        Authorization: `Bearer ${key}`,
-        Accept: "application/json",
-      },
-    }
+    `https://app.ticketmaster.com/discovery/v2/events.json?${params}`,
+    { headers: { Accept: "application/json" } }
   );
 
   if (!res.ok) {
     const errText = await res.text();
-    throw new Error(`Eventbrite API error ${res.status}: ${errText}`);
+    throw new Error(`Ticketmaster API error ${res.status}: ${errText}`);
   }
 
   const data = await res.json();
+  const items = data._embedded?.events || [];
 
-  return (data.events || [])
-    .filter((e) => {
-      // Only show Chennai events
-      const addr = (e.venue?.address?.city || "").toLowerCase();
-      return addr.includes("chennai") || addr.includes("tamil");
-    })
-    .map((e) => {
-      // Get lowest ticket price
-      const tickets   = e.ticket_classes || [];
-      const freeTicket = tickets.find((t) => t.free);
-      const paidMin    = tickets
-        .filter((t) => !t.free && t.cost)
-        .map((t) => t.cost.major_value)
-        .sort((a, b) => a - b)[0];
+  return items.map((e) => {
+    const venue    = e._embedded?.venues?.[0];
+    const priceMin = e.priceRanges?.[0]?.min;
+    const currency = e.priceRanges?.[0]?.currency || "INR";
+    const price    = priceMin
+      ? (currency === "INR" ? "₹" : "$") + Number(priceMin).toLocaleString("en-IN")
+      : "Check site";
 
-      const price = freeTicket
-        ? "Free"
-        : paidMin
-        ? "₹" + Number(paidMin).toLocaleString("en-IN")
-        : "Check site";
-
-      return {
-        id:          "eb-" + e.id,
-        name:        e.name?.text || "Unnamed Event",
-        category:    mapCategory(e.category_id || ""),
-        date:        e.start?.local || "",
-        dateDisplay: formatDate(e.start?.local || ""),
-        venue:       e.venue?.name || "",
-        area:        e.venue?.address?.localized_area_display || e.venue?.address?.city || "Chennai",
-        price:       price,
-        url:         e.url || "#",
-        image:       e.logo?.url || "",
-        seats:       e.capacity ? e.capacity + " capacity" : "",
-        source:      "Eventbrite",
-      };
-    });
+    return {
+      id:          "tm-" + e.id,
+      name:        e.name || "Unnamed Event",
+      category:    mapCategory(e.classifications?.[0]?.segment?.name || ""),
+      date:        e.dates?.start?.localDate + "T" + (e.dates?.start?.localTime || "00:00:00"),
+      dateDisplay: formatDate(e.dates?.start?.localDate, e.dates?.start?.localTime),
+      venue:       venue?.name || "",
+      area:        venue?.address?.line1 || venue?.city?.name || "Chennai",
+      price:       price,
+      url:         e.url || "#",
+      image:       e.images?.find(i => i.ratio === "16_9" && i.width > 500)?.url || e.images?.[0]?.url || "",
+      seats:       e.accessibility?.ticketLimit ? e.accessibility.ticketLimit + " tickets" : "",
+      source:      "Ticketmaster",
+    };
+  });
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
-function mapCategory(categoryId) {
-  const map = {
-    "103": "music",
-    "110": "food",
-    "105": "art",
-    "102": "tech",
-    "108": "sport",
-    "115": "kids",
-    "101": "art",
-    "104": "art",
-    "107": "art",
-    "109": "sport",
-    "111": "tech",
-    "113": "tech",
-    "199": "art",
-  };
-  return map[categoryId] || "art";
+function mapCategory(segment) {
+  const s = (segment || "").toLowerCase();
+  if (s.includes("music"))                          return "music";
+  if (s.includes("sport"))                          return "sport";
+  if (s.includes("art") || s.includes("theatre"))  return "art";
+  if (s.includes("family") || s.includes("kid"))   return "kids";
+  if (s.includes("food"))                           return "food";
+  if (s.includes("tech") || s.includes("misc"))    return "tech";
+  return "art";
 }
 
-function formatDate(raw) {
-  if (!raw) return "Date TBD";
+function formatDate(date, time) {
+  if (!date) return "Date TBD";
   try {
-    const d = new Date(raw);
-    if (isNaN(d)) return String(raw);
+    const d = new Date(date + "T" + (time || "00:00:00"));
     return (
-      d.toLocaleDateString("en-IN", {
-        weekday: "short",
-        day: "numeric",
-        month: "short",
-      }) +
-      " · " +
-      d.toLocaleTimeString("en-IN", {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: true,
-      })
+      d.toLocaleDateString("en-IN", { weekday: "short", day: "numeric", month: "short" }) +
+      (time ? " · " + d.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", hour12: true }) : "")
     );
-  } catch {
-    return String(raw);
-  }
+  } catch { return date; }
 }
 
-// ── Fallback — shown only if Eventbrite API fails ─────────────────────────────
+// ── Fallback — shown only if Ticketmaster API fails ───────────────────────────
 function fallbackEvents() {
   return [
     { id:"1", name:"Timeless Chitra Live Music Concert",  category:"music", date:"2026-07-11T18:00:00", dateDisplay:"Sat, 11 Jul · 6:00 PM", venue:"Jawaharlal Nehru Indoor Stadium", area:"Chennai", price:"Check site", url:"https://allevents.in/chennai/timeless-chitra-live-music-concert/3900030021435630",                    image:"", seats:"",             source:"Fallback" },
