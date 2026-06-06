@@ -489,7 +489,8 @@
 // ── NammaEvents — fetches directly from Google Sheets (zero server credits) ──
 // To update events: just edit the Google Sheet. No code changes needed!
 
-const SHEET_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR8khfDKXYjEt_phEdj8-VH3l36ObE2MmJ5QqrQD55Y_lOIlYl0InCeGUNrA36uiPbPzyi9IWuRyxGF/pub?gid=0&single=true&output=csv";
+const SHEET_CSV      = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR8khfDKXYjEt_phEdj8-VH3l36ObE2MmJ5QqrQD55Y_lOIlYl0InCeGUNrA36uiPbPzyi9IWuRyxGF/pub?gid=0&single=true&output=csv";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyNBwEHGGE_PJt3N3swbsgSj_3T-HVwH184-ri7NcdZVKQp66pb-MXi0ZBIinoyA7DheQ/exec?action=getEvents";
 
 // ── State ─────────────────────────────────────────────────────────────────────
 let allEvents    = [];
@@ -516,28 +517,44 @@ async function fetchEvents(cat = 'all') {
   showSkeleton();
 
   try {
-    // Try multiple CORS proxies in order until one works
-    let csv = null;
-    const proxies = [
-      () => fetch('https://corsproxy.io/?' + encodeURIComponent(SHEET_CSV))
-              .then(r => { if(!r.ok) throw new Error('failed'); return r.text(); }),
-      () => fetch('https://api.allorigins.win/get?url=' + encodeURIComponent(SHEET_CSV))
-              .then(r => { if(!r.ok) throw new Error('failed'); return r.json(); })
-              .then(j => j.contents),
-      () => fetch('https://corsproxy.io/?' + SHEET_CSV)
-              .then(r => { if(!r.ok) throw new Error('failed'); return r.text(); }),
-    ];
+    // Fetch events directly from Google Apps Script (no CORS issues)
+    const res = await fetch(APPS_SCRIPT_URL);
+    if (!res.ok) throw new Error('Fetch failed: ' + res.status);
+    const data = await res.json();
+    if (!data.events) throw new Error('No events in response');
 
-    for (const proxy of proxies) {
-      try {
-        csv = await proxy();
-        if (csv && csv.length > 50) break;
-      } catch(e) {
-        console.warn('Proxy failed, trying next...', e.message);
-      }
-    }
+    const today = new Date();
+    today.setHours(0,0,0,0);
 
-    if (!csv || csv.length < 50) throw new Error('All proxies failed');
+    const allEventsRaw = data.events
+      .filter(e => {
+        if (e.date) {
+          const d = new Date(e.date);
+          if (!isNaN(d) && d < today) return false;
+        }
+        return true;
+      })
+      .sort((a,b) => new Date(a.date||0) - new Date(b.date||0));
+
+    allEvents = currentCat === 'all' ? allEventsRaw : allEventsRaw.filter(e => e.category === currentCat);
+
+    const badge = document.getElementById('live-badge');
+    if (badge) { badge.textContent = '🟢 Live events'; badge.title = 'Updated: ' + new Date().toLocaleString('en-IN'); }
+
+    renderEvents(allEvents, visibleCount);
+    renderUpcoming(allEvents);
+    isLoading = false;
+    return; // exit early — no need for CSV parsing below
+  } catch(err) {
+    console.warn('Apps Script fetch failed, trying CSV proxy:', err.message);
+  }
+
+  try {
+    // Fallback: try CSV via proxy
+    const res = await fetch('https://api.cors.lol/?url=' + encodeURIComponent(SHEET_CSV));
+    if (!res.ok) throw new Error('Proxy failed');
+    const csv = await res.text();
+    if (!csv || csv.length < 50) throw new Error('Empty CSV');
 
     const rows    = parseCSV(csv);
     if (rows.length < 2) throw new Error('Empty sheet');
