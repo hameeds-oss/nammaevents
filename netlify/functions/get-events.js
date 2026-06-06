@@ -14,7 +14,7 @@ exports.handler = async function (event) {
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
-        "Cache-Control": "public, max-age=1800",
+        "Cache-Control": "public, max-age=21600",
       },
       body: JSON.stringify({
         events:  events.length ? events : fallbackEvents(),
