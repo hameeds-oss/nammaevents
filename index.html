@@ -397,6 +397,11 @@
           </div>
         </a>
       </div>
+      <div style="text-align:center;margin-top:16px;margin-bottom:8px;">
+        <button id="load-more-btn" onclick="loadMore()" style="display:none;background:none;border:1.5px solid #C8371A;color:#C8371A;padding:12px 32px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;" onmouseover="this.style.background='#F5E8E4'" onmouseout="this.style.background='none'">
+          Show more events ↓
+        </button>
+      </div>
     </section>
 
     <div class="sep"></div>
@@ -491,57 +496,62 @@ let allEvents    = [];
 let currentCat   = 'all';
 let currentQuery = '';
 let isLoading    = false;
+let visibleCount = 6;
 
-// ── Category colours ─────────────────────────────────────────────────────────
-const thumbColors = {
-  music: '#C8371A', food: '#C9862A', art: '#1A6B3A',
-  tech:  '#1A3A8C', sport: '#0A6B6B', kids: '#6B1A8C',
-};
-
-// ── Fetch live events from our Netlify function ───────────────────────────────
+// ── Fetch ALL events, filter client-side ──────────────────────────────────────
 async function fetchEvents(cat = 'all') {
   if (isLoading) return;
-  isLoading = true;
+  isLoading    = true;
+  visibleCount = 6;
+  currentCat   = cat;
   showSkeleton();
 
   try {
-    const url = `/.netlify/functions/get-events?category=${encodeURIComponent(cat)}`;
-    const res  = await fetch(url);
-    if (!res.ok) throw new Error('Network response not ok');
+    const res  = await fetch('/.netlify/functions/get-events?category=all');
+    if (!res.ok) throw new Error('Network error');
     const data = await res.json();
-    allEvents = data.events || [];
+    const all  = data.events || [];
+    allEvents  = cat === 'all' ? all : all.filter(e => e.category === cat);
 
-    // Show live badge if from API, fallback badge if not
     const badge = document.getElementById('live-badge');
     if (badge) {
-      badge.textContent  = data.source === 'allevents' ? '🟢 Live events' : '📋 Cached events';
-      badge.title        = 'Last updated: ' + (data.fetched ? new Date(data.fetched).toLocaleString('en-IN') : 'unknown');
+      badge.textContent = data.source === 'google-sheets' ? '🟢 Live events' : '📋 Cached events';
+      badge.title = 'Last updated: ' + (data.fetched ? new Date(data.fetched).toLocaleString('en-IN') : 'unknown');
     }
   } catch (err) {
-    console.warn('Fetch failed, using fallback:', err.message);
-    allEvents = getFallbackEvents();
+    console.warn('Fetch failed:', err.message);
+    const all = getFallbackEvents();
+    allEvents  = cat === 'all' ? all : all.filter(e => e.category === cat);
   }
 
-  renderEvents(allEvents);
+  renderEvents(allEvents, visibleCount);
   renderUpcoming(allEvents);
   isLoading = false;
 }
 
 // ── Render events grid ────────────────────────────────────────────────────────
-function renderEvents(events) {
+function renderEvents(events, limit) {
   const grid = document.getElementById('events-grid');
+  const btn  = document.getElementById('load-more-btn');
+
   if (!events.length) {
-    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px 0;color:#6B5E57;font-size:15px;">
-      <i class="ti ti-calendar-off" style="font-size:32px;display:block;margin-bottom:10px"></i>
-      No events found for this category right now. Check back soon!
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:48px 0;color:#6B5E57;font-size:15px;">
+      <i class="ti ti-calendar-off" style="font-size:36px;display:block;margin-bottom:12px;opacity:0.4"></i>
+      No events in this category right now.<br>
+      <a href="organizer.html" style="color:#C8371A;font-size:13px;">List your event here →</a>
     </div>`;
+    if (btn) btn.style.display = 'none';
     return;
   }
 
-  grid.innerHTML = events.slice(0, 6).map((e, i) => {
-    const color = thumbColors[e.category] || '#1A1410';
-    const catLabel = { music:'Music', food:'Food & Drink', art:'Art & Culture', tech:'Tech & Business', sport:'Sports & Fitness', kids:'Kids & Family' }[e.category] || 'Event';
-    const seatsHtml = e.seats ? `<span class="event-seats"><i class="ti ti-users" style="font-size:11px"></i> ${e.seats}</span>` : `<span class="event-seats"><i class="ti ti-ticket" style="font-size:11px"></i> Open</span>`;
+  const colors = { music:'#C8371A', food:'#C9862A', art:'#1A6B3A', tech:'#1A3A8C', sport:'#0A6B6B', kids:'#6B1A8C' };
+  const shown  = events.slice(0, limit);
+
+  grid.innerHTML = shown.map(e => {
+    const color     = colors[e.category] || '#1A1410';
+    const seatsHtml = e.seats
+      ? `<span class="event-seats"><i class="ti ti-users" style="font-size:11px"></i> ${e.seats}</span>`
+      : `<span class="event-seats"><i class="ti ti-ticket" style="font-size:11px"></i> Open</span>`;
     return `
       <a href="${e.url}" target="_blank" rel="noopener" class="event-card" data-cat="${e.category}">
         <div class="event-thumb" style="background:${color}">
@@ -563,6 +573,23 @@ function renderEvents(events) {
         </div>
       </a>`;
   }).join('');
+
+  // Load more button
+  if (btn) {
+    if (events.length > limit) {
+      btn.style.display = 'block';
+      btn.textContent   = 'Show ' + Math.min(6, events.length - limit) + ' more events ↓';
+    } else {
+      btn.style.display = 'none';
+    }
+  }
+}
+
+// ── Load more ─────────────────────────────────────────────────────────────────
+function loadMore() {
+  visibleCount += 6;
+  renderEvents(allEvents, visibleCount);
+  document.getElementById('events').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 // ── Render upcoming list ──────────────────────────────────────────────────────
@@ -570,7 +597,6 @@ function renderUpcoming(events) {
   const list = document.getElementById('upcoming-list');
   if (!list) return;
 
-  // Sort by date and take next 6
   const sorted = [...events]
     .filter(e => e.date)
     .sort((a, b) => new Date(a.date) - new Date(b.date))
@@ -578,11 +604,12 @@ function renderUpcoming(events) {
 
   if (!sorted.length) { list.innerHTML = ''; return; }
 
+  const catLabel = { music:'Music', food:'Food & Drink', art:'Art & Culture', tech:'Tech & Business', sport:'Sports & Fitness', kids:'Kids & Family' };
+
   list.innerHTML = sorted.map(e => {
-    const d = e.date ? new Date(e.date) : null;
+    const d     = e.date ? new Date(e.date) : null;
     const month = d ? d.toLocaleDateString('en-IN', { month: 'short' }).toUpperCase() : '—';
     const day   = d ? d.getDate() : '—';
-    const catLabel = { music:'Music', food:'Food & Drink', art:'Art & Culture', tech:'Tech & Business', sport:'Sports & Fitness', kids:'Kids & Family' }[e.category] || 'Event';
     return `
       <a href="${e.url}" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;display:block;">
         <div class="upcoming-item">
@@ -592,7 +619,7 @@ function renderUpcoming(events) {
           </div>
           <div class="upcoming-info">
             <div class="upcoming-name">${e.name}</div>
-            <div class="upcoming-meta"><i class="ti ti-map-pin" style="font-size:11px"></i> ${e.venue} · ${catLabel}</div>
+            <div class="upcoming-meta"><i class="ti ti-map-pin" style="font-size:11px"></i> ${e.venue} · ${catLabel[e.category] || 'Event'}</div>
           </div>
           <div class="upcoming-price">${e.price}</div>
         </div>
@@ -619,28 +646,26 @@ function setCat(btn, cat) {
   document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById('cat-filter').value = cat;
-  currentCat = cat;
   fetchEvents(cat);
 }
 
 function filterEvents() {
-  currentCat = document.getElementById('cat-filter').value;
-  fetchEvents(currentCat);
+  fetchEvents(document.getElementById('cat-filter').value);
 }
 
 // ── Search ────────────────────────────────────────────────────────────────────
 function doSearch() {
   const q = document.getElementById('search-input').value.trim().toLowerCase();
-  currentQuery = q;
-  if (!q) { renderEvents(allEvents); return; }
+  if (!q) { renderEvents(allEvents, visibleCount); return; }
   const filtered = allEvents.filter(e =>
     e.name.toLowerCase().includes(q) ||
     e.venue.toLowerCase().includes(q) ||
     e.area.toLowerCase().includes(q) ||
     e.category.toLowerCase().includes(q)
   );
-  renderEvents(filtered);
+  renderEvents(filtered, filtered.length);
 }
+
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('search-input').addEventListener('keydown', e => {
     if (e.key === 'Enter') doSearch();
@@ -649,18 +674,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function truncate(str, n) {
-  return str.length > n ? str.slice(0, n - 1) + '…' : str;
+  return str && str.length > n ? str.slice(0, n - 1) + '…' : (str || '');
 }
 
-// Fallback events shown if the serverless function is unreachable
 function getFallbackEvents() {
   return [
-    { id:"1", name:"Timeless Chitra Live Music Concert",   category:"music",  date:"2026-07-11T18:00:00", dateDisplay:"Sat, 11 Jul · 6:00 PM",  venue:"Jawaharlal Nehru Indoor Stadium", area:"Chennai", price:"Check site", url:"https://allevents.in/chennai/timeless-chitra-live-music-concert/3900030021435630",           image:"", seats:"" },
-    { id:"2", name:"Jagane Thandhiram Musical Stand-up",   category:"art",    date:"2026-07-12T18:30:00", dateDisplay:"Sun, 12 Jul · 6:30 PM",  venue:"Museum Theatre",                  area:"Chennai", price:"Check site", url:"https://allevents.in/chennai/jagane-thandhiram-chennai/3900029816787958",                    image:"", seats:"48 interested" },
-    { id:"3", name:"Namma Chennai Juniorthon – 4th Ed.",   category:"sport",  date:"2026-07-12T08:00:00", dateDisplay:"Sun, 12 Jul · 8:00 AM",  venue:"Nehru Park, SDAT",                area:"Chennai", price:"₹599",       url:"https://allevents.in/chennai/namma-chennai-juniorthon-4th-edition/4100029945960732",          image:"", seats:"" },
-    { id:"4", name:"Kids & Junior Athletics Meet 2026",    category:"kids",   date:"2026-07-04T07:30:00", dateDisplay:"Sat, 4 Jul · 7:30 AM",   venue:"Jawaharlal Nehru Stadium",        area:"Chennai", price:"₹500",       url:"https://allevents.in/chennai/kids-and-junior-athletics-meet-2026-tickets/80002931242302",      image:"", seats:"" },
-    { id:"5", name:"Sikkil Gurucharan Grand Concert",      category:"music",  date:"2026-07-05T12:30:00", dateDisplay:"Sun, 5 Jul · 12:30 PM",  venue:"Club Road, Chetpet",              area:"Chennai", price:"Check site", url:"https://allevents.in/chennai/thumbai-centre-for-arts-grand-concert-of-shri-sikkil-gurucharan/200030057428742", image:"", seats:"" },
-    { id:"6", name:"The Great Chennai Job Fair 2026",      category:"tech",   date:"2026-07-11T08:00:00", dateDisplay:"Sat, 11 Jul · 8:00 AM",  venue:"Loyola College, Nungambakkam",    area:"Chennai", price:"Free",       url:"https://allevents.in/chennai/the-great-chennai-job-fair-2026/200030103211241",                   image:"", seats:"500+ companies" },
+    { id:"1", name:"Timeless Chitra Live Music Concert",  category:"music", date:"2026-07-11T18:00:00", dateDisplay:"Sat, 11 Jul · 6:00 PM",  venue:"Jawaharlal Nehru Indoor Stadium", area:"Chennai", price:"Check site", url:"https://allevents.in/chennai/timeless-chitra-live-music-concert/3900030021435630",                    image:"", seats:"" },
+    { id:"2", name:"Jagane Thandhiram Musical Stand-up",  category:"art",   date:"2026-07-12T18:30:00", dateDisplay:"Sun, 12 Jul · 6:30 PM",  venue:"Museum Theatre",                  area:"Chennai", price:"Check site", url:"https://allevents.in/chennai/jagane-thandhiram-chennai/3900029816787958",                                image:"", seats:"48 interested" },
+    { id:"3", name:"Namma Chennai Juniorthon – 4th Ed.",  category:"sport", date:"2026-07-12T08:00:00", dateDisplay:"Sun, 12 Jul · 8:00 AM",  venue:"Nehru Park, SDAT",                area:"Chennai", price:"₹599",       url:"https://allevents.in/chennai/namma-chennai-juniorthon-4th-edition/4100029945960732",                     image:"", seats:"" },
+    { id:"4", name:"Kids & Junior Athletics Meet 2026",   category:"kids",  date:"2026-07-04T07:30:00", dateDisplay:"Sat, 4 Jul · 7:30 AM",   venue:"Jawaharlal Nehru Stadium",        area:"Chennai", price:"₹500",       url:"https://allevents.in/chennai/kids-and-junior-athletics-meet-2026-tickets/80002931242302",                   image:"", seats:"" },
+    { id:"5", name:"Sikkil Gurucharan Grand Concert",     category:"music", date:"2026-07-05T12:30:00", dateDisplay:"Sun, 5 Jul · 12:30 PM",  venue:"Club Road, Chetpet",              area:"Chennai", price:"Check site", url:"https://allevents.in/chennai/thumbai-centre-for-arts-grand-concert-of-shri-sikkil-gurucharan/200030057428742", image:"", seats:"" },
+    { id:"6", name:"The Great Chennai Job Fair 2026",     category:"tech",  date:"2026-07-11T08:00:00", dateDisplay:"Sat, 11 Jul · 8:00 AM",  venue:"Loyola College, Nungambakkam",    area:"Chennai", price:"Free",       url:"https://allevents.in/chennai/the-great-chennai-job-fair-2026/200030103211241",                              image:"", seats:"500+ companies" },
   ];
 }
 
