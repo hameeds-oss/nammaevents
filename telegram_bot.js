@@ -8,7 +8,7 @@
 
 const TELEGRAM_TOKEN   = "8739056975:AAHjA-RvGfK_U7S4GpUKZTQvXmmOEprS5p8";
 const ADMIN_CHAT_ID    = "1031732366";
-const APPS_SCRIPT_URL  = "https://script.google.com/macros/s/AKfycbyNBwEHGGE_PJt3N3swbsgSj_3T-HVwH184-ri7NcdZVKQp66pb-MXi0ZBIinoyA7DheQ/exec";
+const APPS_SCRIPT_URL  = "https://script.google.com/macros/s/AKfycby2HrMZQMrW37ZVXx_-Mqw1s4iSNuXeX-Lhl06VhD3N5TpsO26sFnzuZaZ7cZJxOvOlpQ/exec";
 const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY; // set this as environment variable
 
 const https    = require("https");
@@ -132,25 +132,38 @@ Return ONLY the JSON, no other text.`;
 
 // ── Add event to Google Sheet ─────────────────────────────────────────────────
 async function addEventToSheet(event) {
+  // Use URL-encoded form data with redirect following
+  const formData = new URLSearchParams();
+  Object.keys(event).forEach(key => formData.append(key, event[key] || ""));
+  const body = formData.toString();
+
   return new Promise((resolve, reject) => {
-    const body = JSON.stringify(event);
-    const options = {
-      hostname: "script.google.com",
-      path: APPS_SCRIPT_URL.replace("https://script.google.com", ""),
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Content-Length": Buffer.byteLength(body),
-      },
-    };
-    const req = https.request(options, (res) => {
-      let data = "";
-      res.on("data", (chunk) => (data += chunk));
-      res.on("end", () => resolve(data));
-    });
-    req.on("error", reject);
-    req.write(body);
-    req.end();
+    function doRequest(url, redirectCount) {
+      if (redirectCount > 5) { reject(new Error("Too many redirects")); return; }
+      const urlObj  = new URL(url);
+      const options = {
+        hostname: urlObj.hostname,
+        path:     urlObj.pathname + urlObj.search,
+        method:   "POST",
+        headers:  {
+          "Content-Type":   "application/x-www-form-urlencoded",
+          "Content-Length": Buffer.byteLength(body),
+        },
+      };
+      const req = https.request(options, (res) => {
+        if ([301, 302, 307, 308].includes(res.statusCode) && res.headers.location) {
+          doRequest(res.headers.location, redirectCount + 1);
+          return;
+        }
+        let data = "";
+        res.on("data", chunk => (data += chunk));
+        res.on("end", () => resolve(data));
+      });
+      req.on("error", reject);
+      req.write(body);
+      req.end();
+    }
+    doRequest(APPS_SCRIPT_URL, 0);
   });
 }
 
