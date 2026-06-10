@@ -245,6 +245,8 @@ Example:
       const fileUrl = await getFileURL(fileId);
       const base64  = await downloadImageAsBase64(fileUrl);
       const event   = await extractEventWithClaude(base64, true);
+      // Store the Telegram file URL as the event image
+      event.image = fileUrl;
       await addEventToSheet(event);
       await sendMessage(chatId, `✅ *Event added to NammaEvents!*
 
