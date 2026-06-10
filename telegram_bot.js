@@ -66,7 +66,14 @@ async function downloadImageAsBase64(url) {
 
 // ── Claude AI — extract event details from image or text ─────────────────────
 async function extractEventWithClaude(input, isImage = false) {
+  const today     = new Date();
+  const thisYear  = today.getFullYear();
+  const nextYear  = thisYear + 1;
+  const todayStr  = today.toISOString().split("T")[0];
+
   const prompt = `You are an event data extractor for NammaEvents, a Chennai event discovery website.
+
+Today's date is ${todayStr}. Current year is ${thisYear}.
 
 Extract event details and return ONLY a JSON object with these exact fields:
 {
@@ -80,6 +87,13 @@ Extract event details and return ONLY a JSON object with these exact fields:
   "url": "booking URL if visible, else https://nammaevents.org",
   "seats": "capacity or availability info if visible"
 }
+
+IMPORTANT DATE RULES:
+- Today is ${todayStr}
+- If the event shows a date that has already passed this year, use ${nextYear} instead
+- If no year is mentioned, use ${thisYear} if the date is in the future, or ${nextYear} if it has passed
+- Always return date in YYYY-MM-DD format
+- Never return a date in the past
 
 If any field is not found, use empty string "".
 Return ONLY the JSON, no other text.`;
