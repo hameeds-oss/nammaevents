@@ -3,8 +3,74 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>NammaEvents — Chennai's Event Hub</title>
-<meta name="description" content="Discover and book the best events in Chennai — music, food, art, tech, sports and more."/>
+
+<!-- Primary SEO -->
+<title>NammaEvents — Chennai's #1 Event Discovery Platform</title>
+<meta name="description" content="Discover and book the best events in Chennai. Music concerts, food festivals, art shows, tech meetups, sports events and more. Your weekly guide to Chennai events."/>
+<meta name="keywords" content="Chennai events, events in Chennai, Chennai concerts, Chennai food festival, things to do in Chennai, Chennai weekend events, Chennai event calendar, Namma Chennai events, Tamil Nadu events, Chennai nightlife, Chennai art events, Chennai tech meetups"/>
+<meta name="author" content="NammaEvents"/>
+<meta name="robots" content="index, follow"/>
+<link rel="canonical" href="https://nammaevents.org"/>
+
+<!-- Open Graph (Facebook, WhatsApp) -->
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://nammaevents.org"/>
+<meta property="og:title" content="NammaEvents — Chennai's #1 Event Discovery Platform"/>
+<meta property="og:description" content="Discover the best events in Chennai — music, food, art, tech, sports and more. Updated weekly!"/>
+<meta property="og:image" content="https://nammaevents.org/og-image.jpg"/>
+<meta property="og:locale" content="en_IN"/>
+<meta property="og:site_name" content="NammaEvents"/>
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="NammaEvents — Chennai's Event Hub"/>
+<meta name="twitter:description" content="Discover the best events in Chennai — music, food, art, tech, sports and more."/>
+<meta name="twitter:image" content="https://nammaevents.org/og-image.jpg"/>
+
+<!-- Geo Tags -->
+<meta name="geo.region" content="IN-TN"/>
+<meta name="geo.placename" content="Chennai"/>
+<meta name="geo.position" content="13.0827;80.2707"/>
+<meta name="ICBM" content="13.0827, 80.2707"/>
+
+<!-- Schema.org Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "NammaEvents",
+  "url": "https://nammaevents.org",
+  "description": "Chennai's premier event discovery platform. Find music concerts, food festivals, art shows, tech meetups and more.",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://nammaevents.org/?search={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "NammaEvents",
+  "url": "https://nammaevents.org",
+  "logo": "https://nammaevents.org/logo.png",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "email": "hello@nammaevents.org",
+    "contactType": "customer support"
+  },
+  "sameAs": [
+    "https://www.facebook.com/nammaevents",
+    "https://www.instagram.com/nammaevents",
+    "https://twitter.com/nammaevents"
+  ],
+  "areaServed": {
+    "@type": "City",
+    "name": "Chennai"
+  }
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet"/>
@@ -194,6 +260,14 @@
     .footer-top { grid-template-columns: 1fr; gap: 24px; }
   }
 </style>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YYBT50PERH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-YYBT50PERH');
+</script>
 </head>
 <body>
 
@@ -233,31 +307,31 @@
         </div>
       </div>
       <div class="hero-visual">
-        <div class="featured-card">
-          <div class="card-img">
+        <div class="featured-card" id="hero-featured-card">
+          <div class="card-img" id="hero-card-img">
             <div class="card-img-pattern"></div>
             <div>
-              <div class="card-img-label">Chennai Music Festival<div class="card-img-sub">Season XXIV</div></div>
+              <div class="card-img-label" id="hero-card-label">Loading events…<div class="card-img-sub" id="hero-card-sub"></div></div>
             </div>
           </div>
           <div class="card-body">
-            <span class="badge badge-music">Music</span>
+            <span class="badge badge-music" id="hero-badge">Events</span>
             <div class="card-meta">
-              <span class="card-date"><i class="ti ti-calendar" style="font-size:11px"></i> Jun 14–16, 2026</span>
-              <span class="card-loc"><i class="ti ti-map-pin" style="font-size:11px"></i> Music Academy, T.Nagar</span>
+              <span class="card-date" id="hero-date"><i class="ti ti-calendar" style="font-size:11px"></i> </span>
+              <span class="card-loc" id="hero-venue"><i class="ti ti-map-pin" style="font-size:11px"></i> Chennai</span>
             </div>
-            <div class="card-title">Evening of Classical Strings</div>
-            <div class="card-desc">Three nights of Carnatic music featuring masters of veena, violin, and mridangam.</div>
+            <div class="card-title" id="hero-title">Chennai Events</div>
+            <div class="card-desc" id="hero-desc">Discover the best events happening in Chennai.</div>
           </div>
         </div>
-        <div class="mini-cards">
+        <div class="mini-cards" id="hero-mini-cards">
           <div class="mini-card">
-            <div class="mini-card-date"><i class="ti ti-calendar" style="font-size:10px"></i> Jun 20 · Marina Beach</div>
-            <div class="mini-card-title">Sunrise 5K Run</div>
+            <div class="mini-card-date">Loading…</div>
+            <div class="mini-card-title">Upcoming events</div>
           </div>
           <div class="mini-card">
-            <div class="mini-card-date"><i class="ti ti-calendar" style="font-size:10px"></i> Jun 22 · Mylapore</div>
-            <div class="mini-card-title">Heritage Walk & Food Trail</div>
+            <div class="mini-card-date">Coming soon</div>
+            <div class="mini-card-title">More events</div>
           </div>
         </div>
       </div>
@@ -284,6 +358,7 @@
         <option value="tech">Tech & Business</option>
         <option value="sport">Sports & Fitness</option>
         <option value="kids">Kids & Family</option>
+        <option value="wellness">Wellness</option>
       </select>
       <div class="search-divider"></div>
       <select>
@@ -308,6 +383,7 @@
         <button class="cat-btn" onclick="setCat(this,'tech')"><span class="cat-icon"><i class="ti ti-device-laptop"></i></span> Tech & Business</button>
         <button class="cat-btn" onclick="setCat(this,'sport')"><span class="cat-icon"><i class="ti ti-run"></i></span> Sports & Fitness</button>
         <button class="cat-btn" onclick="setCat(this,'kids')"><span class="cat-icon"><i class="ti ti-stars"></i></span> Kids & Family</button>
+        <button class="cat-btn" onclick="setCat(this,'wellness')"><span class="cat-icon"><i class="ti ti-heart"></i></span> Wellness</button>
       </div>
     </section>
 
@@ -486,11 +562,8 @@
 </footer>
 
 <script>
-// ── NammaEvents — fetches directly from Google Sheets (zero server credits) ──
-// To update events: just edit the Google Sheet. No code changes needed!
-
-const SHEET_CSV      = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR8khfDKXYjEt_phEdj8-VH3l36ObE2MmJ5QqrQD55Y_lOIlYl0InCeGUNrA36uiPbPzyi9IWuRyxGF/pub?gid=0&single=true&output=csv";
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyNBwEHGGE_PJt3N3swbsgSj_3T-HVwH184-ri7NcdZVKQp66pb-MXi0ZBIinoyA7DheQ/exec?action=getEvents";
+// ── NammaEvents — fetches directly from Google Apps Script ───────────────────
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby2HrMZQMrW37ZVXx_-Mqw1s4iSNuXeX-Lhl06VhD3N5TpsO26sFnzuZaZ7cZJxOvOlpQ/exec?action=getEvents";
 
 // ── State ─────────────────────────────────────────────────────────────────────
 let allEvents    = [];
@@ -502,7 +575,7 @@ function toggleMenu() {
   document.getElementById('mobile-menu').classList.toggle('open');
 }
 
-// ── Boot — fetch on page load ─────────────────────────────────────────────────
+// ── Boot ──────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('search-input').addEventListener('keydown', e => {
     if (e.key === 'Enter') doSearch();
@@ -510,103 +583,80 @@ document.addEventListener('DOMContentLoaded', () => {
   fetchEvents('all');
 });
 
-// ── Fetch & parse Google Sheet directly in browser ────────────────────────────
-async function fetchEvents(cat = 'all') {
-  currentCat   = cat;
+// ── Update hero section with real events ─────────────────────────────────────
+function updateHero(events) {
+  if (!events || !events.length) return;
+  const colors   = { music:'#C8371A', food:'#C9862A', art:'#1A6B3A', tech:'#1A3A8C', sport:'#0A6B6B', kids:'#6B1A8C', wellness:'#2D6B5E' };
+  const catLabel = { music:'Music', food:'Food & Drink', art:'Art & Culture', tech:'Tech & Business', sport:'Sports & Fitness', kids:'Kids & Family', wellness:'Wellness' };
+
+  const featured = events[0];
+  if (featured) {
+    const cardImg = document.getElementById('hero-card-img');
+    if (cardImg) {
+      cardImg.style.background = colors[featured.category] || '#1A1410';
+      if (featured.image) {
+        cardImg.style.backgroundImage = 'url(' + featured.image + ')';
+        cardImg.style.backgroundSize = 'cover';
+        cardImg.style.backgroundPosition = 'center';
+      }
+    }
+    const label = document.getElementById('hero-card-label');
+    if (label) label.childNodes[0].textContent = truncate(featured.name, 30);
+    const sub = document.getElementById('hero-card-sub');
+    if (sub) sub.textContent = catLabel[featured.category] || 'Event';
+    const badge = document.getElementById('hero-badge');
+    if (badge) badge.textContent = catLabel[featured.category] || 'Event';
+    const date = document.getElementById('hero-date');
+    if (date) date.innerHTML = '<i class="ti ti-calendar" style="font-size:11px"></i> ' + featured.dateDisplay;
+    const venue = document.getElementById('hero-venue');
+    if (venue) venue.innerHTML = '<i class="ti ti-map-pin" style="font-size:11px"></i> ' + featured.venue;
+    const title = document.getElementById('hero-title');
+    if (title) title.textContent = featured.name;
+    const desc = document.getElementById('hero-desc');
+    if (desc) desc.textContent = (featured.venue || '') + (featured.area ? ', ' + featured.area : '');
+  }
+
+  const miniContainer = document.getElementById('hero-mini-cards');
+  if (miniContainer && events.length > 1) {
+    miniContainer.innerHTML = events.slice(1, 3).map(e => `
+      <div class="mini-card" onclick="window.open('${e.url}','_blank')" style="cursor:pointer">
+        <div class="mini-card-date"><i class="ti ti-calendar" style="font-size:10px"></i> ${e.dateDisplay}</div>
+        <div class="mini-card-title">${truncate(e.name, 32)}</div>
+      </div>`).join('');
+  }
+}
+
+// ── Fetch events from Google Apps Script ──────────────────────────────────────
+async function fetchEvents(cat) {
+  currentCat   = cat || 'all';
   visibleCount = 6;
   showSkeleton();
 
   try {
-    // Fetch events directly from Google Apps Script (no CORS issues)
-    const res = await fetch(APPS_SCRIPT_URL);
+    const res  = await fetch(APPS_SCRIPT_URL);
     if (!res.ok) throw new Error('Fetch failed: ' + res.status);
     const data = await res.json();
-    if (!data.events) throw new Error('No events in response');
+    const all  = data.events || [];
 
-    const today = new Date();
-    today.setHours(0,0,0,0);
+    // Filter out past events (using IST timezone)
+    const now   = new Date();
+    const IST   = new Date(now.getTime() + (5.5 * 60 * 60 * 1000));
+    const todayIST = IST.toISOString().split('T')[0]; // YYYY-MM-DD in IST
 
-    const allEventsRaw = data.events
-      .filter(e => {
-        if (e.date) {
-          const d = new Date(e.date);
-          if (!isNaN(d) && d < today) return false;
-        }
-        return true;
-      })
-      .sort((a,b) => new Date(a.date||0) - new Date(b.date||0));
+    const future = all.filter(e => {
+      if (!e.date) return true;
+      const eventDate = e.date.split('T')[0]; // Get just YYYY-MM-DD part
+      if (!eventDate) return true;
+      return eventDate >= todayIST;
+    });
 
-    allEvents = currentCat === 'all' ? allEventsRaw : allEventsRaw.filter(e => e.category === currentCat);
+    // Filter by category client-side
+    allEvents = currentCat === 'all'
+      ? future
+      : future.filter(e => e.category === currentCat);
 
-    const badge = document.getElementById('live-badge');
-    if (badge) { badge.textContent = '🟢 Live events'; badge.title = 'Updated: ' + new Date().toLocaleString('en-IN'); }
-
-    renderEvents(allEvents, visibleCount);
-    renderUpcoming(allEvents);
-    isLoading = false;
-    return; // exit early — no need for CSV parsing below
-  } catch(err) {
-    console.warn('Apps Script fetch failed, trying CSV proxy:', err.message);
-  }
-
-  try {
-    // Fallback: try CSV via proxy
-    const res = await fetch('https://api.cors.lol/?url=' + encodeURIComponent(SHEET_CSV));
-    if (!res.ok) throw new Error('Proxy failed');
-    const csv = await res.text();
-    if (!csv || csv.length < 50) throw new Error('Empty CSV');
-
-    const rows    = parseCSV(csv);
-    if (rows.length < 2) throw new Error('Empty sheet');
-
-    const headers = rows[0].map(h => h.trim().toLowerCase());
-    const idx = {
-      name:     headers.indexOf('name'),
-      category: headers.indexOf('category'),
-      date:     headers.indexOf('date'),
-      time:     headers.indexOf('time'),
-      venue:    headers.indexOf('venue'),
-      area:     headers.indexOf('area'),
-      price:    headers.indexOf('price'),
-      url:      headers.indexOf('url'),
-      seats:    headers.indexOf('seats'),
-    };
-
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    const events = rows
-      .slice(1)
-      .filter(row => row[idx.name] && row[idx.name].trim())
-      .map((row, i) => {
-        const date     = (row[idx.date] || '').trim();
-        const time     = padTime((row[idx.time] || '00:00').trim());
-        const dateTime = date ? date + 'T' + time + ':00' : '';
-        const rawCat   = (row[idx.category] || '').trim().toLowerCase();
-        return {
-          id:          'gs-' + (i + 1),
-          name:        (row[idx.name]  || '').trim() || 'Unnamed Event',
-          category:    normaliseCategory(rawCat),
-          date:        dateTime,
-          dateDisplay: formatDate(date, time),
-          venue:       (row[idx.venue] || '').trim(),
-          area:        (row[idx.area]  || '').trim() || 'Chennai',
-          price:       (row[idx.price] || '').trim() || 'Check site',
-          url:         (row[idx.url]   || '').trim() || '#',
-          seats:       (row[idx.seats] || '').trim(),
-        };
-      })
-      .filter(e => {
-        // Remove past events
-        if (e.date) {
-          const d = new Date(e.date);
-          if (!isNaN(d) && d < today) return false;
-        }
-        return true;
-      })
-      .sort((a, b) => new Date(a.date || 0) - new Date(b.date || 0));
-
-    allEvents = cat === 'all' ? events : events.filter(e => e.category === cat);
+    // Update hero with real events (only on 'all' category)
+    if (currentCat === 'all') updateHero(future);
 
     // Update live badge
     const badge = document.getElementById('live-badge');
@@ -616,9 +666,9 @@ async function fetchEvents(cat = 'all') {
     }
 
   } catch (err) {
-    console.warn('Sheet fetch failed, using fallback:', err.message);
+    console.warn('Fetch failed, using fallback:', err.message);
     const all = getFallbackEvents();
-    allEvents  = cat === 'all' ? all : all.filter(e => e.category === cat);
+    allEvents  = currentCat === 'all' ? all : all.filter(e => e.category === currentCat);
     const badge = document.getElementById('live-badge');
     if (badge) badge.textContent = '📋 Cached events';
   }
@@ -642,18 +692,23 @@ function renderEvents(events, limit) {
     return;
   }
 
-  const colors = { music:'#C8371A', food:'#C9862A', art:'#1A6B3A', tech:'#1A3A8C', sport:'#0A6B6B', kids:'#6B1A8C' };
-  const shown  = events.slice(0, limit);
+  const colors = {
+    music:'#C8371A', food:'#C9862A', art:'#1A6B3A',
+    tech:'#1A3A8C', sport:'#0A6B6B', kids:'#6B1A8C', wellness:'#2D6B5E'
+  };
+  const shown = events.slice(0, limit);
 
   grid.innerHTML = shown.map(e => {
     const color     = colors[e.category] || '#1A1410';
     const seatsHtml = e.seats
       ? `<span class="event-seats"><i class="ti ti-users" style="font-size:11px"></i> ${e.seats}</span>`
       : `<span class="event-seats"><i class="ti ti-ticket" style="font-size:11px"></i> Open</span>`;
+    const imgHtml = e.image ? `<img src="${e.image}" alt="${e.name}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'">` : '';
     return `
       <a href="${e.url}" target="_blank" rel="noopener" class="event-card" data-cat="${e.category}">
         <div class="event-thumb" style="background:${color}">
-          <div class="thumb-pattern"></div>
+          ${imgHtml}
+          <div class="thumb-pattern" style="${e.image ? 'opacity:0.5;background:rgba(0,0,0,0.3);background-image:none' : ''}"></div>
           <div class="thumb-title">${truncate(e.name, 28)}</div>
         </div>
         <div class="event-body">
@@ -671,7 +726,6 @@ function renderEvents(events, limit) {
       </a>`;
   }).join('');
 
-  // Load more button
   if (btn) {
     if (events.length > limit) {
       btn.style.display = 'block';
@@ -700,11 +754,15 @@ function renderUpcoming(events) {
 
   if (!sorted.length) { list.innerHTML = ''; return; }
 
-  const catLabel = { music:'Music', food:'Food & Drink', art:'Art & Culture', tech:'Tech & Business', sport:'Sports & Fitness', kids:'Kids & Family' };
+  const catLabel = {
+    music:'Music', food:'Food & Drink', art:'Art & Culture',
+    tech:'Tech & Business', sport:'Sports & Fitness',
+    kids:'Kids & Family', wellness:'Wellness'
+  };
 
   list.innerHTML = sorted.map(e => {
     const d     = e.date ? new Date(e.date) : null;
-    const month = d ? d.toLocaleDateString('en-IN', { month: 'short' }).toUpperCase() : '—';
+    const month = d ? d.toLocaleDateString('en-IN', { month:'short' }).toUpperCase() : '—';
     const day   = d ? d.getDate() : '—';
     return `
       <a href="${e.url}" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;display:block;">
@@ -741,7 +799,6 @@ function showSkeleton() {
 function setCat(btn, cat) {
   document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  document.getElementById('cat-filter').value = cat;
   fetchEvents(cat);
 }
 
@@ -756,69 +813,13 @@ function doSearch() {
   const filtered = allEvents.filter(e =>
     e.name.toLowerCase().includes(q) ||
     e.venue.toLowerCase().includes(q) ||
-    e.area.toLowerCase().includes(q) ||
+    (e.area || '').toLowerCase().includes(q) ||
     e.category.toLowerCase().includes(q)
   );
   renderEvents(filtered, filtered.length);
 }
 
-// ── CSV parser ────────────────────────────────────────────────────────────────
-function parseCSV(text) {
-  const rows  = [];
-  const lines = text.split('\n');
-  for (const line of lines) {
-    if (!line.trim()) continue;
-    const cols = [];
-    let cur = '';
-    let inQ = false;
-    for (let i = 0; i < line.length; i++) {
-      const ch = line[i];
-      if (ch === '"')              { inQ = !inQ; }
-      else if (ch === ',' && !inQ) { cols.push(cur); cur = ''; }
-      else                         { cur += ch; }
-    }
-    cols.push(cur);
-    rows.push(cols);
-  }
-  return rows;
-}
-
-// ── Category normaliser ───────────────────────────────────────────────────────
-function normaliseCategory(raw) {
-  if (!raw) return 'art';
-  if (raw === 'music' || raw.includes('concert'))                                              return 'music';
-  if (raw === 'food'  || raw.includes('drink') || raw.includes('culinary'))                    return 'food';
-  if (raw === 'sport' || raw.includes('fitness') || raw.includes('run') || raw.includes('athletics')) return 'sport';
-  if (raw === 'kids'  || raw.includes('family') || raw.includes('child') || raw.includes('junior'))   return 'kids';
-  if (raw === 'tech'  || raw.includes('business') || raw.includes('startup') || raw.includes('job') || raw.includes('expo')) return 'tech';
-  if (raw === 'art'   || raw.includes('culture') || raw.includes('comedy') || raw.includes('theatre') || raw.includes('stand')) return 'art';
-  if (raw.includes('wellness') || raw.includes('health') || raw.includes('yoga') || raw.includes('meditat'))                   return 'art';
-  return 'art';
-}
-
-// ── Pad single-digit time ─────────────────────────────────────────────────────
-function padTime(t) {
-  if (!t) return '00:00';
-  const parts = t.split(':');
-  return parts[0].padStart(2, '0') + ':' + (parts[1] || '00').padStart(2, '0');
-}
-
-// ── Format date ───────────────────────────────────────────────────────────────
-function formatDate(date, time) {
-  if (!date) return 'Date TBD';
-  try {
-    const d = new Date(date + 'T' + (time || '00:00') + ':00');
-    if (isNaN(d)) return date;
-    return (
-      d.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' }) +
-      (time && time !== '00:00'
-        ? ' · ' + d.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true })
-        : '')
-    );
-  } catch (e) { return date; }
-}
-
-// ── Truncate text ─────────────────────────────────────────────────────────────
+// ── Helpers ───────────────────────────────────────────────────────────────────
 function truncate(str, n) {
   return str && str.length > n ? str.slice(0, n - 1) + '…' : (str || '');
 }
@@ -826,12 +827,12 @@ function truncate(str, n) {
 // ── Fallback events ───────────────────────────────────────────────────────────
 function getFallbackEvents() {
   return [
-    { id:'1', name:'Timeless Chitra Live Music Concert',  category:'music', date:'2026-07-11T18:00:00', dateDisplay:'Sat, 11 Jul · 6:00 PM',  venue:'Jawaharlal Nehru Indoor Stadium', area:'Chennai', price:'Check site', url:'https://allevents.in/chennai/timeless-chitra-live-music-concert/3900030021435630',                    seats:'' },
-    { id:'2', name:'Jagane Thandhiram Musical Stand-up',  category:'art',   date:'2026-07-12T18:30:00', dateDisplay:'Sun, 12 Jul · 6:30 PM',  venue:'Museum Theatre',                  area:'Chennai', price:'Check site', url:'https://allevents.in/chennai/jagane-thandhiram-chennai/3900029816787958',                                seats:'48 interested' },
-    { id:'3', name:'Namma Chennai Juniorthon – 4th Ed.',  category:'sport', date:'2026-07-12T08:00:00', dateDisplay:'Sun, 12 Jul · 8:00 AM',  venue:'Nehru Park, SDAT',                area:'Chennai', price:'₹599',       url:'https://allevents.in/chennai/namma-chennai-juniorthon-4th-edition/4100029945960732',                     seats:'' },
-    { id:'4', name:'Kids & Junior Athletics Meet 2026',   category:'kids',  date:'2026-07-04T07:30:00', dateDisplay:'Sat, 4 Jul · 7:30 AM',   venue:'Jawaharlal Nehru Stadium',        area:'Chennai', price:'₹500',       url:'https://allevents.in/chennai/kids-and-junior-athletics-meet-2026-tickets/80002931242302',                   seats:'' },
-    { id:'5', name:'Sikkil Gurucharan Grand Concert',     category:'music', date:'2026-07-05T12:30:00', dateDisplay:'Sun, 5 Jul · 12:30 PM',  venue:'Club Road, Chetpet',              area:'Chennai', price:'Check site', url:'https://allevents.in/chennai/thumbai-centre-for-arts-grand-concert-of-shri-sikkil-gurucharan/200030057428742', seats:'' },
-    { id:'6', name:'The Great Chennai Job Fair 2026',     category:'tech',  date:'2026-07-11T08:00:00', dateDisplay:'Sat, 11 Jul · 8:00 AM',  venue:'Loyola College, Nungambakkam',    area:'Chennai', price:'Free',       url:'https://allevents.in/chennai/the-great-chennai-job-fair-2026/200030103211241',                              seats:'500+ companies' },
+    { id:'1', name:'Timeless Chitra Live Music Concert',  category:'music',    date:'2026-07-11T18:00:00', dateDisplay:'Sat, 11 Jul · 6:00 PM',  venue:'Jawaharlal Nehru Indoor Stadium', area:'Chennai', price:'Check site', url:'https://allevents.in/chennai/timeless-chitra-live-music-concert/3900030021435630',                    seats:'' },
+    { id:'2', name:'Jagane Thandhiram Musical Stand-up',  category:'art',      date:'2026-07-12T18:30:00', dateDisplay:'Sun, 12 Jul · 6:30 PM',  venue:'Museum Theatre',                  area:'Chennai', price:'Check site', url:'https://allevents.in/chennai/jagane-thandhiram-chennai/3900029816787958',                                seats:'48 interested' },
+    { id:'3', name:'Namma Chennai Juniorthon',            category:'sport',    date:'2026-07-12T08:00:00', dateDisplay:'Sun, 12 Jul · 8:00 AM',  venue:'Nehru Park, SDAT',                area:'Chennai', price:'₹599',       url:'https://allevents.in/chennai/namma-chennai-juniorthon-4th-edition/4100029945960732',                     seats:'' },
+    { id:'4', name:'Kids & Junior Athletics Meet 2026',   category:'kids',     date:'2026-07-04T07:30:00', dateDisplay:'Sat, 4 Jul · 7:30 AM',   venue:'Jawaharlal Nehru Stadium',        area:'Chennai', price:'₹500',       url:'https://allevents.in/chennai/kids-and-junior-athletics-meet-2026-tickets/80002931242302',                   seats:'' },
+    { id:'5', name:'Sikkil Gurucharan Grand Concert',     category:'music',    date:'2026-07-05T12:30:00', dateDisplay:'Sun, 5 Jul · 12:30 PM',  venue:'Club Road, Chetpet',              area:'Chennai', price:'Check site', url:'https://allevents.in/chennai/thumbai-centre-for-arts-grand-concert-of-shri-sikkil-gurucharan/200030057428742', seats:'' },
+    { id:'6', name:'The Great Chennai Job Fair 2026',     category:'tech',     date:'2026-07-11T08:00:00', dateDisplay:'Sat, 11 Jul · 8:00 AM',  venue:'Loyola College, Nungambakkam',    area:'Chennai', price:'Free',       url:'https://allevents.in/chennai/the-great-chennai-job-fair-2026/200030103211241',                              seats:'500+ companies' },
   ];
 }
 </script>
